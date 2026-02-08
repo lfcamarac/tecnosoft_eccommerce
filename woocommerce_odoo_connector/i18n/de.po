@@ -1,0 +1,592 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* woocommerce_odoo_connector
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-21 13:40+0000\n"
+"PO-Revision-Date: 2024-03-21 13:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__update_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__update_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__update_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__update_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_order_date
+msgid ""
+"\n"
+"    A date used for selecting orders that were last updated after (or at) a specified time.\n"
+"     An update is defined as any change in order status,includes updates made by the seller.\n"
+msgstr ""
+"\n"
+"    Ein Datum, das zum Auswählen von Bestellungen verwendet wird, die zuletzt nach (oder zu) einem bestimmten Zeitpunkt aktualisiert wurden.\n"
+"     Als Aktualisierung gilt jede Änderung des Bestellstatus, einschließlich Aktualisierungen durch den Verkäufer.\n"
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "** Api record limit must be less than or equal to 100"
+msgstr "** Api-Datensatzgrenze muss kleiner oder gleich 100 sein"
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_import_wizard_form
+msgid ""
+"<span invisible=\"woocommerce_filter_type != 'by_id' or object == "
+"'delivery.carrier'\" style=\"color:blue\">In case of import with multiple "
+"ids, Ids must be \",\" separated</span>"
+msgstr ""
+"<span invisible=\"woocommerce_filter_type != 'by_id' or object == "
+"'delivery.carrier'\" style=\"color:blue\">Im Falle eines Imports mit mehreren "
+"ids, IDs müssen durch \",\" getrennt werden</span>"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__update_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__update_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__update_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__update_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_customer_date
+msgid ""
+"A date used for selecting customer updated after (or at) a specified time."
+msgstr ""
+"Ein Datum, das für die Auswahl von Kunden verwendet wird, die nach (oder zu) einer bestimmten Zeit aktualisiert wurden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__import_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__import_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__import_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__import_customer_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_customer_date
+msgid ""
+"A date used for selecting customers created after (or at) a specified time."
+msgstr ""
+"Ein Datum, das für die Auswahl von Kunden verwendet wird, die nach (oder zu) einer bestimmten Zeit erstellt wurden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__import_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__import_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__import_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__import_order_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_order_date
+msgid ""
+"A date used for selecting orders created after (or at) a specified time."
+msgstr ""
+"Ein Datum, das für die Auswahl von Aufträgen verwendet wird, die nach (oder zu) einer bestimmten Zeit erstellt wurden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__import_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__import_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__import_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__import_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_product_date
+msgid ""
+"A date used for selecting products created after (or at) a specified time."
+msgstr ""
+"Ein Datum, das für die Auswahl von Produkten verwendet wird, die nach (oder zu) einer bestimmten Zeit erstellt wurden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__update_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__update_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__update_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__update_product_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_product_date
+msgid ""
+"A date used for selecting products updated after (or at) a specified time."
+msgstr ""
+"Ein Datum, das für die Auswahl von Produkten verwendet wird, die nach (oder zu) einer bestimmten Zeit aktualisiert wurden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__api_record_limit
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__api_record_limit
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__api_record_limit
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__api_record_limit
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__api_record_limit
+msgid "API Record Limit"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes_value__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_categories__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_operation__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_orders__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_partners__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_products__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_templates__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_categories__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_orders__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_partners__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_products__woocommerce_filter_type__all
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_shipping__woocommerce_filter_type__all
+msgid "All"
+msgstr "Alle"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes_value__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_categories__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_operation__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_orders__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_partners__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_products__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_templates__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_categories__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_orders__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_partners__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_products__woocommerce_filter_type__by_date
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_shipping__woocommerce_filter_type__by_date
+msgid "By Date"
+msgstr "Nach Datum"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_attributes_value__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_categories__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_operation__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_orders__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_partners__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_products__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_templates__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_categories__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_orders__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_partners__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_products__woocommerce_filter_type__by_id
+#: model:ir.model.fields.selection,name:woocommerce_odoo_connector.selection__import_woocommerce_shipping__woocommerce_filter_type__by_id
+msgid "By Id(s)"
+msgstr "Nach ID(s)"
+
+#. module: woocommerce_odoo_connector
+#. odoo-python
+#: code:addons/woocommerce_odoo_connector/models/woc_config.py:0
+#, python-format
+msgid "Can't update product stock , "
+msgstr "Der Produktbestand kann nicht aktualisiert werden."
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__category_ids
+msgid "Categories ID(s)"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__channel
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__channel
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__channel
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__channel
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__channel
+msgid "Channel"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__channel_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__channel_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__channel_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__channel_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__channel_id
+msgid "Channel ID"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#. odoo-python
+#: code:addons/woocommerce_odoo_connector/models/woc_config.py:0
+#, python-format
+msgid "Connection Error: %s, %s"
+msgstr "Verbindungsfehler: %s, %s"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_consumer_key
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "Consumer Key"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__create_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__create_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__create_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__create_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__create_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__create_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__create_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__create_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__import_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__import_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__import_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__import_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_customer_date
+msgid "Customer Created After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__update_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__update_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__update_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__update_customer_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_customer_date
+msgid "Customer Updated After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__display_name
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__display_name
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__display_name
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__display_name
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#. odoo-python
+#: code:addons/woocommerce_odoo_connector/models/woc_config.py:0
+#, python-format
+msgid "Error:"
+msgstr "Fehler:"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_export_categories
+msgid "Export Category"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_export_products
+msgid "Export Partner"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_export_templates
+msgid "Export Template"
+msgstr "Vorlage exportieren"
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_import_wizard_form
+msgid "Filter Type"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_import_wizard_form
+msgid "From"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__from_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__from_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__from_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__from_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__from_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__from_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__from_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__from_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__from_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__from_date
+msgid "From Date"
+msgstr "Ab Datum"
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "Generate Api Keys"
+msgstr "Generieren Sie API-Schlüssel"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__id
+msgid "ID"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__image
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__image
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__image
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__image
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__image
+msgid "Image"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_operation
+msgid "Import Operation"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_woocommerce_categories
+msgid "Import Woocommerce Categories"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_woocommerce_orders
+msgid "Import Woocommerce Orders"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_woocommerce_partners
+msgid "Import Woocommerce Partners"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_woocommerce_products
+msgid "Import Woocommerce Products"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_import_woocommerce_shipping
+msgid "Import Woocommerce Shipping"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__write_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__write_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__write_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__write_uid
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__write_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__write_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__write_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__write_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model,name:woocommerce_odoo_connector.model_multi_channel_sale
+msgid "Multi Channel Sale"
+msgstr "Mehrkanal Verkauf"
+
+#. module: woocommerce_odoo_connector
+#. odoo-javascript
+#: code:addons/woocommerce_odoo_connector/static/src/xml/inherit_multi_channel_template.xml:0
+#, python-format
+msgid "Not Found!"
+msgstr "Nicht gefunden!"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__object
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__object
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__object
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__object
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__object
+msgid "Object"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_import_wizard_form
+msgid "Object Id"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__operation
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__operation
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__operation
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__operation
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__operation
+msgid "Operation"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__import_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__import_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__import_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__import_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_order_date
+msgid "Order Created After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__order_ids
+msgid "Order ID(s)"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__update_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__update_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__update_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__update_order_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_order_date
+msgid "Order Updated After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__parent_categ_id
+msgid "Parent Category"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__partner_ids
+msgid "Partners ID(s)"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__import_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__import_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__import_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__import_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__import_product_date
+msgid "Product Created After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__product_tmpl_ids
+msgid "Product Template ID(s)"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__update_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__update_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__update_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__update_product_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__update_product_date
+msgid "Product Updated After"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "Secret Key"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__source
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__source
+msgid "Source"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_export_odoo_categories_form
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherit_export_odoo_templates_form
+msgid "Synchronize"
+msgstr "Synchronisieren"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__to_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__to_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__to_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__to_date
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__to_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_categories__to_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_orders__to_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_partners__to_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_products__to_date
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_import_woocommerce_shipping__to_date
+msgid "To Date"
+msgstr "Miteinander ausgehen"
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_url
+msgid "URI"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "URL"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_multi_channel_sale__unique_code
+msgid "Unique Code"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:crm.team,name:woocommerce_odoo_connector.sales_team_woocommerce
+msgid "WooCommerce Sales"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes_value__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_categories__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_operation__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_orders__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_partners__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_products__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_templates__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__woocommerce_filter_type
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__woocommerce_filter_type
+msgid "Woocommerce Filter Type"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes_value__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_categories__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_operation__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_orders__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_partners__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_products__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_templates__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__woocommerce_import_date_from
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__woocommerce_import_date_from
+msgid "Woocommerce Import Date From"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_attributes_value__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_categories__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_operation__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_orders__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_partners__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_products__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_templates__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_categories__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_orders__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_partners__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_products__woocommerce_object_id
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_import_woocommerce_shipping__woocommerce_object_id
+msgid "Woocommerce Object"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,field_description:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_secret_key
+msgid "Woocommerce Secret Key"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_consumer_key
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "eg. ck_ccac94fc4362ba12a2045086ea9db285e8f02ac9"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_secret_key
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "eg. cs_a4c0092684bf08cf7a83606b44c82a6e0d8a4cae"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model:ir.model.fields,help:woocommerce_odoo_connector.field_multi_channel_sale__woocommerce_url
+msgid "eg. http://xyz.com"
+msgstr "z.B. http://xyz.com"
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce
+msgid "http://woocommerce-store-url"
+msgstr ""
+
+#. module: woocommerce_odoo_connector
+#: model_terms:ir.ui.view,arch_db:woocommerce_odoo_connector.multi_channel_view_kanban
+msgid "woocommerce icon"
+msgstr ""

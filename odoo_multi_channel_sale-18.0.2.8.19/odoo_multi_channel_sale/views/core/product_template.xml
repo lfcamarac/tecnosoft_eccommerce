@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL :<https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="product_template_form_view" model="ir.ui.view">
+			<field name="name">wk.product.dimensions.product.template.form</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//notebook/page[1]" position="inside">
+					<group>
+						<group>
+							<field name="wk_length"/>
+							<field name="width"/>
+						</group>
+						<group>
+							<field name="height"/>
+							<field name="dimensions_uom_id"/>
+						</group>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="odoo_multi_channel_sale.product_template_only_form_view" model="ir.ui.view">
+			<field name="name">odoo.multi.channel.sale.product.template.form</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view"/>
+			<field name="arch" type="xml">
+				<field name="barcode" position="after">
+					<field
+						name ="wk_product_id_type"
+						invisible="product_variant_count > 1"
+					/>
+					<field name ="wk_default_code" />
+				</field>
+				<xpath expr="//page[last()]" position="after">
+					<page
+						name  ="channel"
+						string="Channel"
+						groups="odoo_multi_channel_sale.group_multi_channel_admin,odoo_multi_channel_sale.group_multi_channel_user"
+					>
+						<group name="channel_category_ids" string="Extra Categories">
+							<field name="channel_category_ids" colspan="2" nolabel="1">
+								<list editable="bottom">
+									<field name="instance_id"/>
+									
+									<field name="extra_category_ids"
+										widget ="many2many_tags"
+										options="{'no_create_edit':True}"
+										readonly="instance_id == False"
+									/>
+								</list>
+							</field>
+						</group>
+						<separator name="mapping" string="Mappings"/>
+						<field name="channel_mapping_ids" readonly="1"/>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

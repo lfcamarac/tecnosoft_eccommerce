@@ -1,0 +1,62 @@
+.ribbons {
+    width: 46px;
+    height: 39px;
+    overflow: hidden;
+    position: absolute;
+  }
+  .ribbons::before,
+  .ribbons::after {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    display: block;
+    border: 5px solid #2980b9;
+  }
+  .ribbons span {
+    position: absolute;
+    display: block;
+    width: 200px;
+    padding-top: 4px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    color: white;
+    font: 400 17px/1 'Lato', sans-serif;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(0,0,0,.2);
+    text-transform: uppercase;
+    text-align: center;
+    height: 15px;
+  }
+  .ribbons-draft {
+    background-color: #ffcc00;
+  }
+  .ribbons-validate {
+    background-color: #28a745;
+  }
+  .ribbons-error {
+    background-color: red;
+  }
+
+/* bottom right*/
+.ribbons-bottom-right {
+  bottom: -1px;
+  right: -1px;
+}
+.ribbons-bottom-right::before,
+.ribbons-bottom-right::after {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+.ribbons-bottom-right::before {
+  bottom: 0;
+  left: 0;
+}
+.ribbons-bottom-right::after {
+  top: 0;
+  right: 0;
+}
+.ribbons-bottom-right span {
+  left: -37px;
+  bottom: 20px;
+  transform: rotate(-42deg);
+  height: 26px;
+}

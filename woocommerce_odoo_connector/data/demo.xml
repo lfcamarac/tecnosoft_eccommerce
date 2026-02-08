@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data noupdate='1'>
+		<record id="sales_team_woocommerce" model="crm.team">
+			<field name="name">WooCommerce Sales</field>
+			<field name="member_ids" eval="[(4, ref('base.user_admin'))]"/>
+		</record>
+ 
+		<record id="woocommerce_channel" model="multi.channel.sale">
+            <field name="name">WooCommerce</field>
+            <field name="channel">woocommerce</field>
+            <field name="environment">sandbox</field>
+            <field name="debug">enable</field>
+	        <field name="auto_evaluate_feed">True</field>
+			<field name="auto_sync_stock">True</field>
+			<field name="order_state_ids" eval="[
+						(0,0,{'channel_state':'on-hold','default_order_state':True,'odoo_order_state':'draft'}),
+						(0,0,{'channel_state':'pending','odoo_order_state':'sale'}),
+						(0,0,{'channel_state':'completed','odoo_create_invoice':True, 'odoo_set_invoice_state':'paid', 'odoo_ship_order':True,'odoo_order_state':'done'}),
+						(0,0,{'odoo_order_state':'cancelled','channel_state':'cancelled'}),
+						(0,0,{'odoo_order_state':'cancelled','channel_state':'failed'}),
+					]" />
+			<field name="crm_team_id" ref='sales_team_woocommerce'/>
+			<field name="color">#D077A6</field>
+            <field name="image" type="base64" file="odoo_multi_channel_sale/static/description/instance_images/woocommerce-connector-thumbnail.png"/>
+        </record>
+	</data>
+</odoo>

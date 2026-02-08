@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="channel_shipping_mappings_search" model="ir.ui.view">
+			<field name="name">channel.shipping.mappings.search</field>
+			<field name="model">channel.shipping.mappings</field>
+			<field name="arch" type="xml">
+				<search string="Channel Shipping Mappings">
+				    <separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+					<group expand="0" string="Group By...">
+					    <field name="odoo_carrier_id" string = "Odoo ID"/>
+						<field name="odoo_shipping_carrier" string="Shipping Carrier"/>
+						<field name="shipping_service" string="Shipping Service"/>
+
+
+						<filter
+							string ="Instance"
+							name   ="filter_by_channel_id"
+							context="{'group_by':'channel_id'}"
+						/>
+						<filter
+							string ="Need Update"
+							name   ="need_sync"
+							domain ="[]"
+							context="{'group_by':'need_sync'}"
+						/>
+					</group>
+                    <searchpanel>
+                        <field name="ecom_store" string="Channels" enable_counters="1"/>
+                        <field name="channel_id" string="Instances" enable_counters="1"/>
+                    </searchpanel>
+				</search>
+			</field>
+		</record>
+
+		<record id="channel_shipping_mapping_form" model="ir.ui.view">
+			<field name="name">channel.shipping.mappings.form</field>
+			<field name="model">channel.shipping.mappings</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form edit="false">
+					<sheet>
+						<group>
+							<group>
+								<field name="channel_id"/>
+								<field name="ecom_store"/>
+							</group>
+							<group>
+								<field name="operation"/>
+								<field name="need_sync"/>
+							</group>
+						</group>
+						<group>
+						    <group>
+							    <field name="odoo_shipping_carrier"/>
+							    <field name="shipping_service" required="1"/>
+							    <field name="shipping_service_id" required="1"/>
+							    <field name="international_shipping"/>
+							</group>
+							<group>
+							    <field name="create_date"/>
+					            <field name="write_date"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="channel_shipping_mapping_tree" model="ir.ui.view">
+			<field name="name">channel.shipping.mappings.tree</field>
+			<field name="model">channel.shipping.mappings</field>
+			
+			<field name="arch" type="xml">
+				<list string="Channel Shipping Mapping" decoration-danger="need_sync=='yes'" decoration-success="need_sync == 'no'" default_order="create_date desc">
+					<field name="id" optional="hide"/>
+					<field name="channel_id" optional="show"/>
+					<field name="shipping_service"/>
+					<field name="shipping_service_id" decoration-bf="1"/>
+					<field name="odoo_shipping_carrier"/>
+					<field name='odoo_carrier_id' decoration-bf="1" optional="hide"/>
+					<field name="international_shipping"/>
+                    <field name="operation" widget="badge" decoration-success="operation == 'import'" decoration-warning="operation == 'export'" optional="show"/>
+					<field name="create_date" optional="hide"/>
+					<field name="write_date" optional="hide"/>
+                    <field name="need_sync" widget="badge" decoration-success="need_sync == 'no'" decoration-danger="need_sync == 'yes'" optional="show"/>
+                    <field name="create_uid" widget="many2one_avatar_user" optional="hide"/>
+				</list>
+			</field>
+		</record>
+
+		<record id="channel_shipping_mapping_pivot" model="ir.ui.view">
+			<field name="name">channel.shipping.mappings.pivot</field>
+			<field name="model">channel.shipping.mappings</field>
+			<field name="type">pivot</field>
+			<field name="arch" type="xml">
+				<pivot>
+					<field name="channel_id" type = "col"/>
+					<field name="create_date" type= "row" interval ="day"/>
+				</pivot>
+			</field>
+		</record>
+
+		<record id="channel_shipping_mapping_action_id" model="ir.actions.act_window">
+			<field name="name">Channel Shipping Mappings</field>
+			<field name="res_model">channel.shipping.mappings</field>
+			<field name="view_mode">list,form,pivot</field>
+			<field name="context">
+{
+	"search_default_filter_by_ecom_store":0
+}
+			</field>
+			<field name="view_id" ref="channel_shipping_mapping_tree"/>
+		</record>
+
+		<menuitem
+			id      ="channel_shipping_mapping_menu_id"
+			name    ="Shipping"
+			parent  ="menu_id_channel_mappings"
+			action  ="channel_shipping_mapping_action_id"
+			sequence="10"
+		/>
+	</data>
+</odoo>

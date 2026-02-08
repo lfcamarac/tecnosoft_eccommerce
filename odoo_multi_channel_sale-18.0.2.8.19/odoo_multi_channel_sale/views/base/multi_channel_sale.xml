@@ -1,0 +1,1463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!--"License URL :<https://store.webkul.com/license.html/>" -->
+<odoo>
+		<record id="multi_channel_view_kanban" model="ir.ui.view">
+		<field name="name">multi.channel.sale.kanban</field>
+		<field name="model">multi.channel.sale</field>
+		<field name="type">kanban</field>
+		<field name="arch" type="xml">
+			<kanban
+				class ="oe_background_grey o_kanban_dashboard o_salesteam_kanban o_project_kanban"
+			>
+				<field name="color_index"/>
+				<field name="name"/>
+				<field name="channel"/>
+				<field name="channel_products"/>
+				<field name="channel_categories"/>
+				<field name="channel_orders"/>
+				<field name="channel_customers"/>
+				<field name="state"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div
+							t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_index.raw_value)} oe_kanban_card oe_kanban_global_click"
+						>	
+							<div class="dropdown dropstart" style="margin-left: 90%; margin-top: -4px; z-index: 1;">
+								<button class="btn" data-bs-toggle="dropdown" title="More"><span class="fa fa-bars"/></button>
+								<div class="dropdown-menu" role="menu">
+									<div class="container">
+										<div class="row">
+											<div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+												<h3 role="menuitem" class="o_kanban_card_manage_title">Mappings</h3>
+												<div role="menuitem">
+													<a
+													name="open_mapping_view"
+													type="object"
+													context="{
+														'mapping_model':'channel.template.mappings',
+														'store_field'  :'store_product_id',
+													}"
+												>Products</a>
+												</div>
+												<div role="menuitem">
+													<a
+													name="open_mapping_view"
+													type="object"
+													context="{
+														'mapping_model':'channel.order.mappings',
+														'store_field'  :'store_order_id',
+													}"
+												>Orders</a>
+												</div>
+												<div role="menuitem">
+													<a
+													name="open_mapping_view"
+													type="object"
+													context="{
+														'mapping_model':'channel.category.mappings',
+														'store_field'  :'store_category_id',
+													}"
+												>Categories</a>
+												</div>
+												<div role="menuitem">
+													<a
+													name="open_mapping_view"
+													type="object"
+													context="{
+														'mapping_model':'channel.partner.mappings',
+														'store_field'  :'store_customer_id',
+													}"
+												>Customers</a>
+												</div>
+											</div>
+											
+										</div>
+
+										<div t-if="widget.editable" class="o_kanban_card_manage_settings o_project_kanban_colorpicker row">
+												<ul class="oe_kanban_colorpicker" data-field="color_index"/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="o_project_kanban_main wk_o_project_kanban_main">
+								<div
+									class="o_kanban_card_content o_visible oe_kanban_global_click"
+									style="display:block"
+								>
+								<div t-attf-class="ribbons ribbons-bottom-right" >
+									<span t-attf-class="ribbons-{{record.state.raw_value}}">
+									</span> 
+								</div>
+								</div>
+								<div
+									class="o_project_kanban_boxes"
+									style="text-align:center;display:grid;top:0;position:absolute;left:0;bottom:0;"
+								>
+									<a
+										class="o_project_kanban_box m-0 card text-white bg-success rounded-0 text-decoration-none"
+										name ="open_record_view"
+										type ="object"
+										style="
+											padding         :5%;
+											min-height		: 56px;
+											min-width	    : 115%;
+										"
+										context="{
+											'mapping_model'     :'channel.template.mappings',
+											'odoo_mapping_field':'odoo_template_id',
+										}"
+									>
+										<span class="o_value" style="overflow:visible !important;font-size:18px">
+											<t t-esc="record.channel_products.value"/>
+										</span>
+										<span class="o_label" style="overflow:visible !important;">Products</span>
+									</a>
+
+									<a
+										class="o_project_kanban_box m-0 card text-white bg-info rounded-0 text-decoration-none"
+										name ="open_record_view"
+										type ="object"
+										style="
+											padding        : 5%;
+											min-height	   : 56px;
+											min-width	   : 115%;
+										"
+										context="{
+											'mapping_model'     :'channel.order.mappings',
+											'odoo_mapping_field':'odoo_order_id',
+										}"
+									>
+										<span class="o_value" style="overflow:visible !important;font-size:18px">
+											<t t-esc="record.channel_orders.value"/>
+										</span>
+										<span class="o_label" style="overflow:visible !important">Orders</span>
+									</a>
+
+									<a
+										class="o_project_kanban_box m-0 card text-white bg-warning rounded-0 text-decoration-none"
+										name ="open_record_view"
+										type ="object"
+										style="
+											padding        : 5%;
+											min-height	   : 56px;
+											min-width	   : 115%;
+										"
+										context="{
+											'mapping_model':'channel.category.mappings',
+											'odoo_mapping_field':'odoo_category_id',
+										}"
+									>
+										<span class="o_value" style="overflow:visible !important;font-size:18px">
+											<t t-esc="record.channel_categories.value"/>
+										</span>
+										<span class="o_label" style="overflow:visible !important">Categories</span>
+									</a>
+									<a
+										class="o_project_kanban_box m-0 card text-white bg-danger rounded-0 text-decoration-none"
+										name ="open_record_view"
+										type ="object"
+										style="
+											padding        : 5%;
+											min-height	   : 56px;
+											min-width	   : 115%;
+										"
+										context="{
+											'mapping_model':'channel.partner.mappings',
+											'odoo_mapping_field':'odoo_partner_id',
+										}"
+									>
+										<span class="o_value" style="overflow:visible !important;font-size:18px">
+											<t t-esc="record.channel_customers.value"/>
+										</span>
+										<span class="o_label" style="overflow:visible !important">Customers</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="multi_channel_view_form" model="ir.ui.view">
+		<field name="name">multi.channel.sale.from</field>
+		<field name="model">multi.channel.sale</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Channel Configuration">
+				<header>
+					<button
+						name  ="test_connection"
+						groups="odoo_multi_channel_sale.group_multi_channel_admin"
+						string="Test Connection"
+						title ="Test Connection"
+						type  ="object"
+						class ="oe_highlight"
+						icon  ="fa-circle-o-notch"
+					/>
+					<button
+						name  ="set_to_draft"
+						string="Set to Draft"
+						title="Set to Draft"
+						type  ="object" class="btn-secondary"
+						groups="odoo_multi_channel_sale.group_multi_channel_admin"
+						invisible="state not in ['validate']"
+					/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div
+						class ="oe_button_box"
+						name  ="button_box"
+						>
+						
+						<button
+							invisible="state != 'validate'"
+							class="oe_stat_button"
+							name ="open_record_view"
+							type ="object"
+							icon ="fa-users"
+							style="position: relative;right: 7%;"
+							context="{
+											'mapping_model':'channel.partner.mappings',
+											'odoo_mapping_field':'odoo_partner_id',
+										}"
+
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_stat_text">Customers</span>
+							</div>
+							
+						</button>
+						<button
+							invisible="state != 'validate'"
+							class="oe_stat_button"
+							name ="open_record_view"
+							type ="object"
+							icon ="fa-tag"
+							style="position: relative;right: 7%;"
+							context="{
+											'mapping_model':'channel.category.mappings',
+											'odoo_mapping_field':'odoo_category_id',
+										}"
+
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_stat_text">Categories</span>
+							</div>
+							
+						</button>
+						<button
+							invisible="state != 'validate'"
+							class="oe_stat_button"
+							name ="open_record_view"
+							type ="object"
+							icon ="fa-dropbox"
+							style="position: relative;right: 7%;"
+							context="{
+											'mapping_model'     :'channel.template.mappings',
+											'odoo_mapping_field':'odoo_template_id',
+										}"
+
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_stat_text">Products</span>
+							</div>
+							
+						</button>
+						<button
+							invisible="state != 'validate'"
+							class="oe_stat_button"
+							name ="open_record_view"
+							type ="object"
+							icon ="fa-usd"
+							style="position: relative;right: 7%;"
+							context="{
+											'mapping_model'     :'channel.order.mappings',
+											'odoo_mapping_field':'odoo_order_id',
+										}"
+
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_stat_text">Orders</span>
+							</div>
+							
+						</button>
+						<button
+							invisible="environment == 'sandbox'"
+							class="oe_stat_button"
+							name ="toggle_enviroment_value"
+							type ="object"
+							icon ="fa-play"
+							style="position: relative;right: 7%;"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="text-success">Production</span>
+								<span class="o_stat_text">Environment</span>
+							</div>
+						</button>
+
+						<button
+							invisible="environment == 'production'"
+							class="oe_stat_button"
+							name ="toggle_enviroment_value"
+							type ="object"
+							icon ="fa-stop"
+							style="position: relative;right: 7%;"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_warning_text">Test</span>
+								<span class="o_stat_text">Environment</span>
+							</div>
+						</button>
+						
+						<button
+							invisible="active == False"
+							class="oe_stat_button"
+							name ="toggle_active_value"
+							type ="object"
+							icon ="fa-play"
+							style="position: relative;right: 7%;"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="text-success">Active</span>
+							</div>
+						</button>
+						<button
+							invisible="active == True"
+							class="oe_stat_button"
+							name ="toggle_active_value"
+							type ="object"
+							icon ="fa-stop"
+							style="position: relative;right: 7%;"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="o_warning_text">InActive</span>
+							</div>
+						</button>
+						
+						<button
+							invisible="debug == 'disable'"
+							class="oe_stat_button"
+							name ="toggle_debug_value"
+							type ="object"
+							icon ="fa-play"
+							style="position: relative;right: 7%;"
+							groups="base.group_no_one"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="text-success">Debug</span>
+								<span class="o_stat_text">Enable</span>
+							</div>
+						</button>
+						<button
+							invisible="debug == 'enable'"
+							class="oe_stat_button"
+							name ="toggle_debug_value"
+							type ="object"
+							icon ="fa-stop"
+							style="position: relative;right: 7%;"
+							groups="base.group_no_one"
+						>
+							<div class="o_stat_info o_form_field">
+								<span class="text-success">Debug</span>
+								<span class="o_stat_text">Disable</span>
+							</div>
+						</button>
+
+						<button 
+							name="channel_activate_developer_mode" 
+							groups="!base.group_no_one" 
+							type='object' 
+							context="{'debug_activate': True}"
+							help="Odoo Developer Mode is not Active, Click to Activate Developer Mode"
+							icon='fa-eye-slash'
+							class='text-bg-light'
+							>
+							<div class="o_stat_info o_form_field">
+								<span class="o_warning_text">Developer</span>
+								<span class="o_stat_text o_warning_text">Mode</span>
+							</div>
+						</button>
+						<button 
+							name="channel_activate_developer_mode" 
+							groups="base.group_no_one" 
+							type='object' 
+							context="{'debug_activate': False}"
+							help="Odoo Developer Mode is Active, Click to Deactivate Developer Mode"
+							icon='fa-eye'
+							class='text-bg-light'
+							>
+							<div class="o_stat_info o_form_field">
+								<span class="text-success">Developer</span>
+								<span class="o_stat_text text-success">Mode</span>
+							</div>
+						</button>
+
+					</div>
+					<widget name="web_ribbon" title="Draft" bg_color="bg-warning" invisible="state != 'draft'"/>
+					<widget name="web_ribbon" title="Error" bg_color="bg-danger" invisible="state != 'error'"/>
+					<widget name="web_ribbon" title="Connected" bg_color="bg-success" invisible="state != 'validate'"/>
+					<div class="ribbon ribbon-top-right" style="width:230px;height:230px" invisible='active'>
+						<span class="text-bg-danger" >Archived</span>
+					</div>
+					<field name="image" class="oe_avatar"  style="margin-right:5%;margin-top:20px" widget="image"/>
+					<div class="oe_title">
+						<b><label for="name" string="Channel Name :"/></b>
+						<h1>
+							<field
+								name       ="name"
+								placeholder="Channel Name"
+								readonly="state == 'validate'"
+							/>
+						</h1>
+						<div name="channels">
+							<div>
+								<label for="channel" string="Channel Type:" class="pe-2"/>
+								<field
+									name ="channel"
+									class="oe_inline"
+									readonly="state == 'validate'"
+								/>
+							</div>
+						</div>
+					</div>
+					<field name="environment" class='text-muted mt-2' readonly="1" groups="base.group_no_one"/>
+
+					
+					
+					<group name="multi_channel_configuration">
+						<group name="oe_button_box"></group>
+					</group>
+					<notebook invisible="not channel">
+						<page
+							name  ="Operation"
+							string="Operation"
+							invisible="state != 'validate'"
+						>
+							<group name ="operation_button_group">
+							<group>
+								<button
+									aria-label="Import"
+									title     ="Import"
+									string    = "Import/Download Data"
+									help      ="Open wizard to Import/Download data from ecommerce."
+									type      ="action"
+									name      ="%(odoo_multi_channel_sale.open_import_wizard_action)d"
+									class     ="oe_highlight btn btn-success box"
+									icon      ="fa-6x fa-sitemap"
+									style     ="height:120px;width:00%;color:green"
+								><br/>
+									<span>Import</span>
+									<span>
+										<i class="fa fa-fw fa-cloud-download" aria-label="Import" title="Import" role="img"/>
+									</span>
+								</button>
+							</group>
+							<group>
+								<button
+									aria-label="Export"
+									title     ="Export"
+									string    = "Export/Upload Data"
+									help      ="Open wizard to export/upload data to ecommerce."
+									type      ="action"
+									name      ="%(odoo_multi_channel_sale.open_export_wizard_action)d"
+									class     ="oe_highlight btn btn-success box"
+									icon      ="fa-6x fa-sitemap"
+									style     ="height:120px;"
+									context	  ="{'instance_id':True}"
+								><br/>
+									<span>Export</span>
+									<span>
+										<i class="fa fa-fw fa-cloud-upload" aria-label="Export" title="Export" role="img"/>
+									</span>
+								</button>
+							</group>
+							</group>
+							<group name="import_buttons"/>
+							<group name="export_buttons"/>
+						</page>
+						<page
+							name  ="credentials"
+							string="Credentials"
+							groups="odoo_multi_channel_sale.group_multi_channel_admin"
+						>
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Configuration
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Configuration for Odoo Multichannel Sale Connection
+							</p>
+							<h2 style="color:blue" invisible="channel != False">
+									Select Channel To View Required Credentials
+							</h2>
+							<group name="credentials">
+								<group name="core_credentials">
+								</group>
+							</group>
+						</page>
+						<page name="configuration" string="Basic Configuration">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Basic Configuration
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Default Configuration For Odoo Multichannel Sale.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'">
+									<div class="o_setting_left_pane">
+										<b><field name="auto_evaluate_feed"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Auto Evaluate" for="auto_evaluate_feed"/>
+										<div class="text-muted">
+											Enable to auto evaluate channel feeds
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Company" for="company_id"/>
+										<div class="text-muted">
+											Select Company for Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="company_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" invisible="'api_record_limit' not in channel_configs">
+									<div class="o_setting_left_pane">
+										<b><field name="use_api_limit"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="API Record Limit" for="api_record_limit"/>
+										<div class="text-muted">
+											API Record Limit for Import Process
+										</div>
+										<div class="text-danger">
+											* Features can vary as per channels
+										</div>
+										<div class="text-muted">
+											<b><field name="api_record_limit"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" 
+												invisible="use_api_limit == False"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" invisible="'total_record_limit' not in channel_configs">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Total Record Limit" for="total_record_limit"/>
+										<div class="text-muted">
+											Total Record Limit for Import Process
+										</div>
+										<div class="text-danger">
+											* Set 0 to disable this feature
+										</div>
+										<div class="text-muted">
+											<b><field name="total_record_limit"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" invisible="'child_store_config' not in channel_configs">
+									<div class="o_setting_left_pane">
+										<b><field name="is_child_store"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Default/Child Store" for="default_store_id"/>
+										<div class="text-muted">
+											Child for existing channel
+										</div>
+										<div class="text-danger">
+											* Feature supported only in limited channels
+										</div>
+										<div class="text-muted">
+											<b>
+												<field name='default_store_id'
+												domain= "[('state','=','validate'),('is_child_store','!=',True)]"
+												options="{'no_create': True}"
+												readonly="state == 'validate'"
+												invisible="is_child_store != True"
+												required="is_child_store == True"/>
+											</b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel Time Zone" for="wk_time_zone"/>
+										<div class="text-muted">
+											select timezone to maintain time zone in order with channel
+										</div>
+										<div class="text-muted">
+											<b><field name="wk_time_zone"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'">
+									<div class="o_setting_left_pane">
+										<b><field name="clear_sync_history"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Clear Sync History" for="clear_sync_history"/>
+										<button 
+											name="open_clear_data_views" 
+											icon="fa-cog"
+											string="Configure Scheduler"
+											class='oe_link fa oe_inline' 
+											type="object" 
+											context="{'cron_view_id': 'cron_clear_history'}" 
+											help="Configure Clear Success Data History settings"
+										/>
+										<div class="text-muted">
+											Clear the Success Sync History
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'">
+									<div class="o_setting_left_pane">
+										<b><field name="clear_done_feed"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Clear Success Feed" for="clear_done_feed"/>
+										<button 
+											name="open_clear_data_views" 
+											icon="fa-cog"
+											string="Configure Scheduler"
+											class='oe_link fa oe_inline' 
+											type="object" 
+											context="{'cron_view_id': 'cron_clear_history'}" 
+											help="Configure Clear Success Data History settings"
+										/>
+										<div class="text-muted">
+											Clear the Evaluated Feeds
+										</div>
+									</div>
+								</div>
+							</div>
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Advance Configuration
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Advance Configuration for Odoo Multichannel Sale Dashboard
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<b><field name="color" widget="color"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Color" for="color"/>
+										<div class="text-muted">
+											Select color for channel dashboard
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Color Index" for="color_index"/>
+										<div class="text-muted">
+											Color Index for Channel Dashboard
+										</div>
+										<div class="text-muted">
+											<b><field name="color_index"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Blog Url" for="blog_url"/>
+										<div class="text-muted">
+											Blog Url for Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="blog_url"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Store URL" for="store_url"/>
+										<div class="text-muted">
+											Store Url for Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="store_url"/></b>
+										</div>
+									</div>
+								</div>
+							</div>
+						</page>
+
+						<page string="Sales Settings" name="sales_setting">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Sales Order
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+							Default Configuration For Sale Order used by Connector,
+							when exporting Sale Order from Channel to Odoo.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_right_pane">
+										<label string="Channel Payment Term" for="payment_term_id"/>
+										<div class="text-muted">
+											Payment term used in channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="payment_term_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel Sales Team" for="crm_team_id"/>
+										<div class="text-muted">
+											Sales team used for channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="crm_team_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel Salesperson" for="sales_person_id"/>
+										<div class="text-muted">
+											Salesperson used for channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="sales_person_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel Order Campaign" for="utm_campaign_id"/>
+										<div class="text-muted">
+											UTM Campaign used for channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="utm_campaign_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel  Order Medium" for="utm_medium_id"/>
+										<div class="text-muted">
+											UTM Medium used for channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="utm_medium_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Channel Order Source" for="utm_source_id"/>
+										<div class="text-muted">
+											UTM Source used for channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="utm_source_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_right_pane">
+										<label string="Channel Tax Type" for="default_tax_type"/>
+										<div class="text-muted">
+											Tax Type used in channel order
+										</div>
+										<div class="text-muted">
+											<b><field name="default_tax_type"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<div><field name="order_ecomm_sequence"
+											readonly="state == 'validate'"/></div>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="E-Commerce Order Reference Sync" for="order_ecomm_sequence"/>
+										<div class="text-muted">
+											Sync Orders with E-Commerce Sequence/reference in Odoo.
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<div><field name="sync_customer_company"
+											readonly="state == 'validate'"/></div>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Import Partner Company Name" for="sync_customer_company"/>
+										<div class="text-muted">
+											Company name will be imported from the first contact/address only
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<div><field name="tax_on_discount_line"
+											readonly="state == 'validate'"/></div>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Tax on Discount Line" for="tax_on_discount_line"/>
+										<div class="text-muted">
+											Enable this configuration only if<br/>
+												- Single tax will be applicable in an order.<br/>
+												- Discount is applied before tax (Tax exclusive amount): (Unit Price - Discount) + Tax
+										</div>
+									</div>
+								</div>
+							</div>
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Order Default Product
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+							Default Service Product For Sale Order used by Connector,
+							when exporting Sale Order from Channel to Odoo.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_right_pane">
+										<label string="Discount Product" for="discount_product_id"/>
+										<div class="text-muted">
+											Service Product for Order Discount
+										</div>
+										<div class="text-muted">
+											<b><field name="discount_product_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Shipping Product" for="delivery_product_id"/>
+										<div class="text-muted">
+											Service Product for Order Shipping Method
+										</div>
+										<div class="text-muted">
+											<b><field name="delivery_product_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Other Charge Product" for="other_charge_product_id"/>
+										<div class="text-muted">
+											Service Product for Order Other Charge
+										</div>
+										<div class="text-muted">
+											<b><field name="other_charge_product_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Realtime Sales Order Status Sync
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Default Configuration used by Connector,
+								Which enables to do Sale Order Opreration from Odoo to Channel.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'" invisible="'sync_order_invoice' not in channel_configs">
+									<div class="o_setting_left_pane">
+										<b><field name="sync_invoice"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Invoice Status" for="sync_invoice"/>
+										<div class="text-muted">
+											Enable for update invoice status at Ecomm
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'" invisible="'sync_order_shipment' not in channel_configs">
+									<div class="o_setting_left_pane">
+										<b><field name="sync_shipment"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Shipment Status" for="sync_shipment"/>
+										<div class="text-muted">
+											Enable for update shipment status at Ecomm
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'" invisible="'sync_order_cancel' not in channel_configs">
+									<div class="o_setting_left_pane">
+										<b><field name="sync_cancel"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Cancel Status" for="sync_cancel"/>
+										<div class="text-muted">
+											Enable for update cancel status at Channel
+										</div>
+									</div>
+								</div>
+							</div>
+						</page>
+
+						<page string="Product Settings" name="products_setting">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Default Settings
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Default Configuration used by Connector,
+								Which enables to do Product Sync Operation from Odoo to Channel.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_right_pane">
+										<label string="Category" for="default_category_id"/>
+										<div class="text-muted">
+											Add Category for channel product
+										</div>
+										<div class="text-muted">
+											<b><field name="default_category_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Pricelist" for="pricelist_name"/>
+										<div class="text-muted">
+											Add Pricelist for channel product price
+										</div>
+										<div class="text-muted">
+											<b><field name="pricelist_name"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="SKU Pattern" for="sku_sequence_id"/>
+										<div class="text-muted">
+											Pattern for SKU of Channel Product
+										</div>
+										<div class="text-muted">
+											<b><field name="sku_sequence_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Language" for="language_id"/>
+										<div class="text-muted">
+											Language of Channel Product
+										</div>
+										<div class="text-muted">
+											<b><field name="language_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_right_pane">
+										<label string="Channel Category" for="channel_default_product_categ_id"/>
+										<div class="text-muted">
+											Add default Category for product export on Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="channel_default_product_categ_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'">
+									<div class="o_setting_left_pane">
+										<b><field name="avoid_duplicity_global"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Product Avoid Duplicity" for="avoid_duplicity_global"/>
+										<button name="%(action_odoo_multi_channel_sale_config)d" type="action" string=" Global Configuration" class='oe_link fa fa-cog oe_inline'/>
+										<div class="text-muted">
+											If Enabled, Product duplicity will be avoided based on Internal Reference (SKU) along with Barcode during import.
+										</div>
+									</div>
+								</div>
+							</div>
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Stock Settings
+							</h2>
+							<p class="text-muted" style="margin-left:5%">
+								Default Stock Configuration used by Connector,
+								Which helps to manage Product Stock Operation from Odoo to Channel.
+							</p>
+							<div class="row mt16 o_settings_container">
+								<div class="col-xs-12 col-md-6 o_setting_box" readonly="state == 'validate'">
+									<div class="o_setting_left_pane">
+										<b><field name="auto_sync_stock"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Auto Stock" for="auto_sync_stock"/>
+										<div class="text-muted">
+											Enable to sync stock in realtime from Odoo to Channel
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Stock Action" for="channel_stock_action"/>
+										<div class="text-muted">
+											Product Quantity will sync According to selected option
+											Quantity on hand/forecast Field.
+										</div>
+										<div class="text-muted">
+											<b><field name="channel_stock_action"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Warehouse" for="warehouse_id"/>
+										<div class="text-muted">
+											Default Warehouse for Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="warehouse_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane"/>
+									<div class="o_setting_right_pane">
+										<label string="Location" for="location_id"/>
+										<div class="text-muted">
+											Default Location for Channel
+										</div>
+										<div class="text-muted">
+											<b><field name="location_id"
+												options="{'no_create' : True}"
+												readonly="state == 'validate'" required="1"/></b>
+										</div>
+									</div>
+								</div>
+							</div>
+						</page>
+
+						<page name="order_state_config" string="Order State Mapping" invisible="'order_state_mapping' not in channel_configs">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Order State Configuration
+							</h2>
+							<span class='text-muted'>
+								<span class='text-danger'>* </span>Setup Order State Mapping for the Channel to Map the Channel Orders State with Odoo Order State.<br/>
+								<span class='text-danger'>* </span>Connector will Import and Create Orders State in Odoo based on this Configuration.
+							</span>
+							<group string="Order State Configuration" name="state_configuration">
+								<field
+									name   ="order_state_ids"
+									colspan="2"
+									nolabel="1"
+									readonly="state == 'validate'"
+								>
+									<list  editable="bottom">
+										<field name="channel_state"/>
+										<field name="odoo_order_state"/>
+										<field name="default_order_state"/>
+										<field name="odoo_create_invoice"/>
+										<field
+											name ="odoo_set_invoice_state"
+											required="odoo_create_invoice != False"
+										/>
+										<field name="odoo_ship_order" />
+									</list>
+								</field>
+							</group>
+						</page>
+
+						<page name="crons" string="Crons" invisible="'cron_available' not in channel_configs or state != 'validate'">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Cron Configuration
+							</h2>
+							<span class='text-muted'>
+								<span class='text-danger'>* </span>Setup Cron to Import Data from Channel to Odoo.<br/>
+								<span class='text-danger'>* </span>Data will be Imported Based on the Created/Updated after a defined date.
+							</span>
+							<div class='row mt16 o_settings_container' invisible="'import_order_cron' not in channel_configs">
+								<div class="col-xs-12 col-md-4 o_setting_box">
+									<div class="o_setting_left_pane">
+										<b><field name="import_order_cron"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Enable Order Cron" for="import_order_cron"/>
+										<div class="text-muted">
+											Select to Enable Import Order Cron
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'order_created_after' not in channel_configs or not import_order_cron">
+										<label string="Orders Created After" for="import_order_date" />
+										<div>
+											<field name="import_order_date" style="width:60%;" class="oe_highlight" />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'order_updated_after' not in channel_configs or not import_order_cron">
+										<label string="Orders Updated After" for="update_order_date" />
+										<div>
+											<field name="update_order_date" style="width:60%;" class="oe_highlight" />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-2 o_setting_box" invisible="not import_order_cron">
+									<div class="o_setting_right_pane">
+										<button 
+											name="open_cron_views" 
+											string="Configuration" 
+											class='oe_link' 
+											type="object" 
+											context="{'cron_view_id': 'cron_import_order'}" 
+											help="Configure Global Order Cron settings"
+											/>
+									</div>
+								</div>
+							</div>
+
+							<div class='row mt16 o_settings_container' invisible="'import_product_cron' not in channel_configs">
+								<div class="col-xs-12 col-md-4 o_setting_box">
+									<div class="o_setting_left_pane">
+										<b><field name="import_product_cron"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Enable Product Cron" for="import_product_cron"/>
+										<div class="text-muted">
+											Select to Enable Import Product Cron
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'product_created_after' not in channel_configs or not import_product_cron">
+										<label string="Products Created After" for="import_product_date" />
+										<div>
+											<field name="import_product_date" style="width:60%;" class="oe_highlight" />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'product_updated_after' not in channel_configs or not import_product_cron">
+										<label string="Products Updated After" for="update_product_date" />
+										<div>
+											<field name="update_product_date" style="width:60%;" class="oe_highlight" />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-2 o_setting_box" invisible="not import_product_cron">
+									<div class="o_setting_right_pane">
+										<button 
+											name="open_cron_views" 
+											string="Configuration" 
+											class='oe_link' 
+											type="object" 
+											context="{'cron_view_id': 'cron_import_product'}" 
+											help="Configure Global Product Cron settings"
+											/>
+									</div>
+								</div>
+							</div>
+
+							<div class='row mt16 o_settings_container' invisible="'import_partner_cron' not in channel_configs">
+								<div class="col-xs-12 col-md-4 o_setting_box">
+									<div class="o_setting_left_pane">
+										<b><field name="import_partner_cron"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Enable Customer Cron" for="import_partner_cron"/>
+										<div class="text-muted">
+											Select to Enable Import Customer Cron
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'partner_created_after' not in channel_configs or not import_partner_cron">
+										<label string="Customers Created After" for="import_customer_date" />
+										<div>
+											<field name="import_customer_date" style="width:60%;" class="oe_highlight"/>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 o_setting_box">
+									<div invisible="'partner_updated_after' not in channel_configs or not import_partner_cron">
+										<label string="Customers Updated After" for="update_customer_date" />
+										<div>
+											<field name="update_customer_date" style="width:60%;" class="oe_highlight"/>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-2 o_setting_box" invisible="not import_partner_cron">
+									<div class="o_setting_right_pane">
+										<button 
+											name="open_cron_views" 
+											string="Configuration" 
+											class='oe_link' 
+											type="object" 
+											context="{'cron_view_id': 'cron_import_partner'}" 
+											help="Configure Global Customer Cron settings"
+											/>
+									</div>
+								</div>
+							</div>
+
+							<div class='row mt16 o_settings_container' invisible="'import_category_cron' not in channel_configs">
+								<div class="col-xs-12 col-md-6 o_setting_box">
+									<div class="o_setting_left_pane">
+										<b><field name="import_category_cron"/></b>
+									</div>
+									<div class="o_setting_right_pane">
+										<label string="Enable Category Cron" for="import_category_cron"/>
+										<div class="text-muted">
+											Select to Enable Import Category Cron
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-4 o_setting_box" invisible="not import_category_cron">
+									<div class="o_setting_right_pane">
+										<span class='text-muted'></span>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-2 o_setting_box" invisible="not import_category_cron">
+									<div class="o_setting_right_pane">
+										<button 
+											name="open_cron_views" 
+											string="Configuration" 
+											class='oe_link' 
+											type="object" 
+											context="{'cron_view_id': 'cron_import_category'}" 
+											help="Configure Global Category Cron settings"
+											/>
+									</div>
+								</div>
+							</div>
+						</page>
+
+
+
+					<!-- ***** Webhooks implementation ******-->
+						<page string="Webhooks" name="multichannel_webhook_page"  invisible="'webhook_available' not in channel_configs or state != 'validate'">
+							<h2 style="margin-top: 10px !important;background-color: #e9ecef;padding-left: 8px;">
+								Channel Webhooks Configuration
+							</h2>
+							<span class='text-muted'>
+								<span class='text-danger'>* </span>Get Realtime Data from Channel to Odoo using Webhooks<br/>
+							</span>
+
+							<div id='multichannel_webhook_info'>
+								<div class='text-muted' invisible="'create_order_webhook' not in channel_configs ">
+									<span class='text-danger'>*</span>
+									Create New Placed Orders from Channel to Odoo in Realtime.
+								</div>
+								<div class='text-muted' invisible= "'update_order_webhook' not in channel_configs">
+									<span class='text-danger'>*</span>
+									Update Order(or Order Status) from Channel to Odoo in RealTime.
+								</div>
+							</div>
+							<div class="row mt16 o_settings_container" invisible="'create_order_webhook' not in channel_configs">
+								<div class="col-xs-12 col-md-8 o_setting_box">
+									<div class="o_setting_right_pane">
+										<div class="d-flex align-items-center justify-content-between">
+											<div class="text-muted" style="min-width: 500px;">
+												Activate to Get New Placed Orders in RealTime from e-Commerce to Odoo.
+											</div>
+											<div class="d-flex gap-1">
+												<button type="object" name="change_order_webhook" class="btn btn-primary btn-sm" invisible="is_create_order_webhook != False">
+													Activate
+												</button>
+												<button type="object" name="change_order_webhook" class="btn btn-secondary btn-sm" invisible="is_create_order_webhook == False">
+													Deactivate
+												</button>
+											</div>
+										</div>
+										<div class="mt4">
+											<span class="text-success small fw-bold" invisible="is_create_order_webhook == False">
+												● Connected
+											</span>
+											<span class="text-danger small fw-bold" invisible="is_create_order_webhook != False">
+												● Not Connected
+											</span>
+											<button type="object"
+												name="refresh_order_webhook_status"
+												class="btn btn-link p-0"
+												title="Refresh Status"
+												icon="fa-refresh"
+												context="{'object_type':'create'}"
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt16 o_settings_container" invisible="'update_order_webhook' not in channel_configs">
+								<div class="col-xs-12 col-md-8 o_setting_box">
+									<div class="o_setting_right_pane">
+										<div class="d-flex align-items-center justify-content-between">
+											<div class="text-muted" style="min-width: 500px;">
+												Activate to Update Order in RealTime from e-Commerce to Odoo.
+											</div>
+											<div class="d-flex gap-1">
+												<button type="object" name="change_update_order_webhook" class="btn btn-primary btn-sm" invisible="is_update_order_webhook != False">
+													Activate
+												</button>
+												<button type="object" name="change_update_order_webhook" class="btn btn-secondary btn-sm" invisible="is_update_order_webhook == False">
+													Deactivate
+												</button>
+											</div>
+										</div>
+										<div class="mt4">
+											<span class="text-success small fw-bold" invisible="is_update_order_webhook == False">
+												● Connected
+											</span>
+											<span class="text-danger small fw-bold" invisible="is_update_order_webhook != False">
+												● Not Connected
+											</span>
+											<button type="object"
+												name="refresh_order_webhook_status"
+												class="btn btn-link p-0"
+												title="Refresh Status"
+												icon="fa-refresh"
+												context="{'object_type':'update'}"
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</page>
+					<!-- ************* -->
+
+
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="multi_channel_view_tree" model="ir.ui.view">
+		<field name="name">multi.channel.sale.tree</field>
+		<field name="model">multi.channel.sale</field>
+		
+		<field name="arch" type="xml">
+			<list string="Channel Configuration">
+				<field name="name"/>
+				<field name="channel"/>
+				<field name="state" widget="badge" decoration-warning="state == 'draft'" decoration-success="state == 'validate'" decoration-danger="state == 'error'" optional="show"/>
+				<field name="create_uid" widget="many2one_avatar_user"/>
+				<field name="company_id" optional="show"/>
+				<field name="create_date"/>
+				<field name="active"/>
+				<field name="language_id" optional="hide"/>
+				<field name="default_category_id" optional="hide"/>
+				<field name="warehouse_id" optional="hide"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="multi_channel_view_search" model="ir.ui.view">
+		<field name="name">multi.channel.sale.search</field>
+		<field name="model">multi.channel.sale</field>
+		<field name="arch" type="xml">
+			<search string="Channel Search">
+				<field name="channel"/>
+				<field name="state"/>
+				<field name="active"/>
+				<filter
+					string="Archived"
+					name="filter_by_inactive"
+					domain="[('active','=',False)]"
+				/>
+				<filter
+					string="Validate"
+					name="filter_by_inactive"
+					domain="[('state','=','validate')]"
+				/>
+				<group string="Group By">
+					<filter
+						string ="Channel"
+						name   ="filter_by_channel"
+						context="{'group_by':'channel'}"
+					/>
+					<filter
+						string ="State"
+						name   ="filter_by_state"
+						domain ="[]"
+						context="{'group_by':'state'}"
+					/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_multi_channel_view" model="ir.actions.act_window">
+		<field name="name">Multi Channel Sale</field>
+		<field name="res_model">multi.channel.sale</field>
+		<field name="view_mode">kanban,list,form</field>
+		<field name="view_id" ref="multi_channel_view_kanban"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create a new instance, the first step of new connection
+			</p><p>
+				Once the instance is connected to the channel, user can perform import/export operations.
+			</p>
+		</field>
+	</record>
+</odoo>

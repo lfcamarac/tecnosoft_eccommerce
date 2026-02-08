@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL :<https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="odoo_multi_channel_sale.product_category_form_view">
+			<field name="name">odoo.multi.channel.sale.product.category.form</field>
+			<field name="model">product.category</field>
+			<field name="inherit_id" ref="product.product_category_form_view"/>
+			<!-- <field name="groups_id" eval="[(4,ref('odoo_multi_channel_sale.group_multi_channel_user'))]"/> -->
+			<field name="arch" type="xml">
+				<xpath expr="//sheet" position="inside">
+					<notebook>
+						<page name="channel" string="Channel">
+							<group name="categories" string="Categories">
+								<field name="channel_category_ids" colspan="2" nolabel="1">
+									<list editable="bottom">
+										<field name="instance_id"/>
+										
+										<field
+											name   ="extra_category_ids"
+											widget ="many2many_tags"
+											options="{'no_create_edit':True}"
+											readonly="instance_id == False"
+											required="instance_id != False"
+										/>
+									</list>
+								</field>
+							</group>
+							<separator string="Mappings"/>
+							<field name="channel_mapping_ids" readonly="1"/>
+						</page>
+					</notebook>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

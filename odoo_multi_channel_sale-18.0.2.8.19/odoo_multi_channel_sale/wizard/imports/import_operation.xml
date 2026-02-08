@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="import_wizard_form" model="ir.ui.view">
+			<field name="name">import.operation.form</field>
+			<field name="model">import.operation</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Import">
+					<div class="row mt16 o_settings_container">
+						<div class="col-xs-12 col-md-6 o_setting_box">
+							<div style="width: 107px;float:left;margin-right: 10px">
+							<field name="image" class="oe_avatar" widget="image" style="border: 0 !important;margin-left:0;"/>
+							</div>
+							<div class="o_setting_right_pane">
+								<label class="text-primary" string="Channel Instance" for="channel_id"/>
+								<div class="text-muted">
+									Select Channel Instance to import data
+								</div>
+								<div class="text-muted">
+									<b><field name="channel_id"
+										options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"
+										invisible="context.get('default_channel_id',False)"
+										readonly="context.get('active_id',False)"/></b>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6 o_setting_box">
+						<!-- <div class="col-xs-12 col-md-6 o_setting_box" groups="odoo_multi_channel_sale.group_multi_channel_user"> -->
+							<div class="o_setting_left_pane"/>
+							<div class="o_setting_right_pane">
+								<label string="Channel" for="channel"/>
+								<div class="text-muted">
+									Channel from where data will be import !
+								</div>
+								<div class="text-muted">
+									<b><field name="channel"/></b>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					<group name="filters">
+						<group>
+							<field name="object" required="True"/>
+						</group>
+					</group>
+					<footer>
+						<button
+							string="Confirm Import"
+							type  ="object"
+							name  ="import_button"
+							class ="oe_highlight btn btn-success"
+						/>
+						<button string="Cancel" class="btn btn-danger" name="cancel" special="cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="open_import_wizard_action" model="ir.actions.act_window">
+			<field name="name">Import Wizard</field>
+			<field name="res_model">import.operation</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	</data>
+</odoo>

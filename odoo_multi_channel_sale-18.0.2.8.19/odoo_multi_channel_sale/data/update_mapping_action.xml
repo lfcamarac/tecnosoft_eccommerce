@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data noupdate="1">
+		<record id="update_product_mappings" model="ir.actions.act_window">
+			<field name="name">Update Product Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_product_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_template_mappings" model="ir.actions.act_window">
+			<field name="name">Update Template Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_template_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_categ_mappings" model="ir.actions.act_window">
+			<field name="name">Update Category Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_category_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_order_mappings" model="ir.actions.act_window">
+			<field name="name">Update Order Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_order_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_partner_mappings" model="ir.actions.act_window">
+			<field name="name">Update Partner Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_partner_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_account_mappings" model="ir.actions.act_window">
+			<field name="name">Update Account Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_account_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_account_journal_mappings" model="ir.actions.act_window">
+			<field name="name">Update Account Journal Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_account_journal_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_shipping_mappings" model="ir.actions.act_window">
+			<field name="name">Update Shipping Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_shipping_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="update_pricelist_mappings" model="ir.actions.act_window">
+			<field name="name">Update Pricelist Mapping</field>
+			<field name="res_model">update.mapping.wizard</field>
+			<field name="binding_model_id" ref="model_channel_pricelist_mappings"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+<!--
+		<act_window
+			id           ="action_feed_sync"
+			name         ="Update Pricelist Mapping"
+			binding_model="channel.pricelist.mappings"
+			res_model    ="update.mapping.wizard"
+			view_mode    ="form"
+			target       ="new"
+		/> -->
+	</data>
+</odoo>

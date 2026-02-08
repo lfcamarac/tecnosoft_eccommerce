@@ -1,0 +1,63 @@
+	------------------------------ Version 2.4.0 (02-04-2024) --------------------------------
+	+ [ADD] Translation of module in Spanish, German and Arabic language.
+
+	------------------------------ Version 2.3.0 (01-04-2024) --------------------------------
+	+ [ADD] Auto generating API keys using OAuth 
+
+	------------------------------ Version 2.1.0 (09-04-2021) --------------------------------
+	+ [ADD] python package "woocommerce==3.0.0"
+
+	------------------------------ Version 2.0.0 (29-05-2020) --------------------------------
+	+ [Fix] Import Taxes added .
+	+ [Fix] Upgrade from WOCv13 old to WOCv13 new.
+
+	------------------------------- Version 2.0.0 (12-06-2020) --------------------------------
+	+ [ADD] import process using API filters (page, per_page)
+
+	------------------------------- Version 2.0.0 (17-06-2020) ----------------------------------
+	+[ADD] import date set to the last added date when importing .
+
+	------------------------------- Version 2.0.0 (25-06-2020) ----------------------------------
+	+ [FIX] export stock with multichannel location.
+	+[FIX] try and except removal.
+	+[FIX] import category recursion.
+	+[FIX] import taxes 
+	+ [FIX] remove search condition for categories while importing products
+	+ [FIX] import operation code to work with other channel.
+
+	------------------------------- Version 2.0.0 (07-07-2020) ----------------------------------
+	+ [REM] remove the invoice and shipping address from import partner code
+
+	------------------------------- Version 2.0.1 (09-07-2020) ----------------------------------
+	+ [FIX] previous order status update code from odoo to woocommerce.
+	+ [ADD] sync_cancel feature in multi.channel.sale model.
+	+ [REM] HTML tags from description sale and description purchase.
+
+	------------------------------- Version 2.0.2 (09-07-2020) ----------------------------------
+	+ [FIX] used multichannel method in export_update_category code .
+	+ [FIX] added multichannel method for getting quantity in export_update_product code .
+	+ [ADD] Added functionality for not raising error messages during import cron.
+
+	------------------------------- Version 2.0.3 (09-07-2020) ----------------------------------
+	+ [FIX] Fixed the import cron issue for page and per_page parameters.
+	+ [FIX] optimized the code for import process.
+	+ [ADD] Added ascending order functionality in the API.
+
+	------------------------------- Version 2.0.4 (12-08-2020) ----------------------------------
+	+ [ADD] Import cron date will set if from_cron is true.
+	
+	------------------------------- Version 2.0.5 (17-08-2020) ----------------------------------
+	+ [REM] Removed the ApiTransaction file.
+	+ [REM] Removed the create remote object code.
+
+	------------------------------- Version 2.0.6 (20-08-2020) ----------------------------------
+	+ [REM] Removed the set woocommerce cron method.
+
+	------------------------------- Version 2.0.7 (08-09-2020) ----------------------------------
+	+ [REM] Removed excess code from update quantity method.
+
+	------------------------------- Version 2.0.8 (29-09-2019) ----------------------------------
+	+[FIX] price miscalculation in import order process with coupon lines is fixed.
+	+[FIX] fixed taxes issue while evaluating order feeds.
+	+[FIX] added taxes in shipping and discount lines.
+	+[UPDATE] multichannel sync quantity new flow.

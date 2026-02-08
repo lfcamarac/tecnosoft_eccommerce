@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">Multi Channel sale Config</field>
+			<field name="model">res.config.settings</field>
+			<field name="inherit_id" ref="base.res_config_settings_view_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//form" position="inside">
+					<app string="Odoo Multi Channel" data-string="Odoo Multi Channel" name="odoo_multi_channel_sale">
+						<h2>Odoo Multi Channel Global Configuration</h2>
+						<div class="row mt2 o_settings_container" id="odoo_multi_channel">
+							<group name='cron_config'>
+								<group string='Import Schedulers'>
+									<field name="cron_import_partner"/>
+									<field name="cron_import_category"/>
+									<field name="cron_import_product"/>
+									<field name="cron_import_order"/>
+								</group>
+								<group string='Other Schedulers'>
+									<field name="cron_evaluation"/>
+									<field name="cron_clear_history"/>
+								</group>
+							</group>
+							<group name='global_config' string='Global Configuration'>
+								<field name="avoid_duplicity"/>
+							</group>
+							<p class='text-muted oe_inline'>
+								This configuration will be applied to all configured channels. 
+							</p>
+						</div>
+					</app>
+				</xpath>
+		</field>
+	</record>
+
+		<record id="action_odoo_multi_channel_sale_config" model="ir.actions.act_window">
+            <field name="name">Configurations</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_id" ref="res_config_settings_view_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+			<field name="context">{'module' : 'odoo_multi_channel_sale', 'bin_size': False}</field>
+        </record>
+
+
+		<!-- <record id="res_config_settings_view_form_inherit_odoo_multi_channel_sale" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.odoo.mutli.channel.sale</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="odoo_multi_channel_sale.res_config_settings_view_odoo_multi_channel"/>
+            <field name="arch" type="xml">
+                <xpath expr="//app[@name='odoo_multi_channel_sale']" position="attributes">
+                    <attribute name="class">app_settings_block</attribute>
+                </xpath>
+            </field>
+        </record> -->
+	</data>
+</odoo>

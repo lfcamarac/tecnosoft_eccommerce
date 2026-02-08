@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="woocommerce_odoo_connector.inherited_multi_channel_sale_woocommerce" model="ir.ui.view">
+			<field name="name">multi.channel.sale.woocommerce</field>
+			<field name="model">multi.channel.sale</field>
+			<field name="inherit_id" ref="odoo_multi_channel_sale.multi_channel_view_form" />
+			<field name="arch" type="xml">	  
+				<xpath expr="//group[@name = 'core_credentials']"  position="inside">
+					<group name="woocomerce_cred" colspan='2'>
+						<label string= "URL" for="woocommerce_url" invisible="channel != 'woocommerce'"/>
+						<div class="text-primary">
+							<field name="woocommerce_url" widget="url" placeholder="http://woocommerce-store-url" invisible="channel != 'woocommerce'" required="channel == 'woocommerce'" readonly="state == 'validate'"/>
+						</div>
+						<label string= "Consumer Key" for="woocommerce_consumer_key"  invisible="channel != 'woocommerce'" />
+						<div class="text-primary">
+							<field name="woocommerce_consumer_key" placeholder="eg. ck_ccac94fc4362ba12a2045086ea9db285e8f02ac9" password="True" invisible="channel != 'woocommerce'" readonly="state == 'validate'"/>
+						</div>
+						<label string= "Secret Key" for="woocommerce_secret_key" invisible="channel != 'woocommerce'" />
+						<div class="text-primary">
+							<field name="woocommerce_secret_key" placeholder="eg. cs_a4c0092684bf08cf7a83606b44c82a6e0d8a4cae" password="True" invisible="channel != 'woocommerce'" readonly="state == 'validate'"/>
+						</div>
+					</group>
+					<button 
+						invisible="channel != 'woocommerce' or state == 'validate'"
+						name="generate_api_keys"
+						class="oe_highlight"
+						type="object"
+						string="Generate Api Keys"/>
+				</xpath>
+				<xpath expr="//page[@name = 'configuration']//div[hasclass('text-danger')]" position="after">
+					<div class="text-danger" invisible="channel != 'woocommerce'">
+						** Api record limit must be less than or equal to 100
+					</div>
+				</xpath>	
+			</field>
+		</record>
+	</data>
+</odoo>

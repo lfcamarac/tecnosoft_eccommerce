@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="channel_account_mappings_search" model="ir.ui.view">
+			<field name="name">channel.account.mappings.search</field>
+			<field name="model">channel.account.mappings</field>
+			<field name="arch" type="xml">
+				<search string="Channel Account Mappings">
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+					<group string="Group By...">
+					    <field name="odoo_tax_id" string = "Odoo ID"/>
+						<field name="tax_name" string = "Tax Name"/>
+						<field name="store_tax_value_id" string ="Tax Value"/>
+						<filter
+							string ="Instance"
+							name   ="filter_by_channel_id"
+							context="{'group_by':'channel_id'}"
+						/>
+						<filter
+							string ="Need Update"
+							name   ='need_sync'
+							domain ="[]"
+							context="{'group_by':'need_sync'}"
+						/>
+					</group>
+                    <searchpanel>
+                        <field name="ecom_store" string="Channels" enable_counters="1"/>
+                        <field name="channel_id" string="Instances" enable_counters="1"/>
+                    </searchpanel>
+				</search>
+			</field>
+		</record>
+
+		<record id="channel_account_mapping_form" model="ir.ui.view">
+			<field name="name">channel.account.mappings.form</field>
+			<field name="model">channel.account.mappings</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form edit="false">
+					<sheet>
+						<group>
+							<group>
+								<field name="channel_id"/>
+								<field name="ecom_store"/>
+							</group>
+							<group>
+								<field name="need_sync"/>
+								<field name="operation"/>
+							</group>
+						</group>
+						<group >
+							<group>
+								<field name="tax_name"/>
+								<field name="tax_type" />
+								<field name="store_tax_value_id"/>
+								<field name="include_in_price"/>
+							</group>
+							<group>
+								<field name="create_date" />
+					            <field name="write_date" /> 
+							</group>
+							
+						</group>
+						
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="channel_account_mapping_tree" model="ir.ui.view">
+			<field name="name">channel.account.mappings.tree</field>
+			<field name="model">channel.account.mappings</field>
+			
+			<field name="arch" type="xml">
+				<list string="Channel Tax Mapping" decoration-danger="need_sync=='yes'" decoration-success="need_sync == 'no'" default_order="create_date desc">
+					<field name="id" optional="hide"/>
+					<field name="channel_id" optional="show"/>
+					<field name="store_tax_value_id" decoration-bf="1"/>
+					<field name="odoo_tax_id" decoration-bf="1" optional="hide"/>
+					<field name="tax_name"/>
+                    <field name="operation" widget="badge" decoration-success="operation == 'import'" decoration-warning="operation == 'export'" optional="hide"/>
+					<field name="create_date" optional="hide"/>
+					<field name="write_date" optional="hide"/>
+                    <field name="need_sync" widget="badge" decoration-success="need_sync == 'no'" decoration-danger="need_sync == 'yes'" optional="hide"/>
+                    <field name="create_uid" widget="many2one_avatar_user" optional="hide"/>
+				</list>
+			</field>
+		</record>
+
+		<record id="channel_account_mapping_pivot" model="ir.ui.view">
+			<field name="name">channel.account.mappings.pivot</field>
+			<field name="model">channel.account.mappings</field>
+			<field name="type">pivot</field>
+			<field name="arch" type="xml">
+				<pivot>
+					<field name="channel_id" type = "col"/>
+					<field name="create_date" type= "row" interval ="day"/>
+				</pivot>
+			</field>
+		</record>
+
+		<record id="channel_account_mapping_action_id" model="ir.actions.act_window">
+			<field name="name">Channel Account Mappings</field>
+			<field name="res_model">channel.account.mappings</field>
+			<field name="view_mode">list,form,pivot</field>
+			<field name="context">
+{
+	"search_default_filter_by_ecom_store":0
+}
+			</field>
+			<field name="view_id" ref="channel_account_mapping_tree"/>
+		</record>
+
+		<menuitem
+			id      ="channel_account_mapping_menu_id"
+			name    ="Tax"
+			parent  ="menu_id_channel_mappings"
+			action  ="channel_account_mapping_action_id"
+			sequence="8"
+		/>
+	</data>
+</odoo>

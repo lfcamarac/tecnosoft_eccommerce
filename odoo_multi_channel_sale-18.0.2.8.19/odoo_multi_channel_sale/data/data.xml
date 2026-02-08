@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<function
+			model = "ir.default"
+			name  = "set"
+			eval  = "('res.config.settings','avoid_duplicity',False)"
+		/>
+
+		<record id="product_sequence_id" model="ir.sequence" forcecreate="True">
+			<field name="name">Product</field>
+			<field name="code">product.sequence</field>
+			<field name="prefix">Ecom-</field>
+			<field name="padding">5</field>
+		</record>
+
+		<record id="discount_product" model="product.product" forcecreate="True">
+			<field name="name">Discount Product</field>
+			<field name="type">service</field>
+		</record>
+
+		<record id="delivery_product" model="product.product" forcecreate="True">
+			<field name="name">Delivery Product</field>
+			<field name="type">service</field>
+		</record>
+		<record id="other_charge_product" model="product.product" forcecreate="True">
+			<field name="name">Other Charge Product</field>
+			<field name="type">service</field>
+		</record>
+
+
+		<!-- create xml ids for demo data that are widely used in tests or in other codes, for more convenience -->
+        <function model="ir.model.data" name="_update_xmlids">
+            <value model="base" eval="[{
+                'xml_id': 'odoo_multi_channel_sale.discount_product_id',
+                'record': obj().env.ref('odoo_multi_channel_sale.discount_product'),
+                'noupdate': True,
+            }, {
+                'xml_id': 'odoo_multi_channel_sale.delivery_product_id',
+                'record': obj().env.ref('odoo_multi_channel_sale.delivery_product'),
+                'noupdate': True,
+            },]"/>
+        </function>
+
+		<function model="multi.channel.sale" name="_upgrade_hook"/>
+		
+		<record model="res.config.settings" id="res_config_settings_enable">
+			<field name="group_product_pricelist" eval="1"/>
+			<field name="group_product_variant" eval="1"/>
+		</record>
+
+		<function model="res.config.settings" name="execute">
+			<value eval="[ref('res_config_settings_enable')]"/>
+		</function>
+
+	</data>
+</odoo>

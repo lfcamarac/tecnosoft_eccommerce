@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data noupdate="1">
+		<record id="export_odoo_product_template_action" model="ir.actions.act_window">
+			<field name="name">Export/Update Templates</field>
+			<field name="res_model">export.templates</field>
+			<field name="binding_model_id" ref="model_product_template"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="export_odoo_products_action" model="ir.actions.act_window">
+			<field name="name">Export/Update Products</field>
+			<field name="res_model">export.products</field>
+			<field name="binding_model_id" ref="model_product_product"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<record id="export_odoo_products_category" model="ir.actions.act_window">
+			<field name="name">Export/Update Categories</field>
+			<field name="res_model">export.categories</field>
+			<field name="binding_model_id" ref="model_product_category"/>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	</data>
+</odoo>

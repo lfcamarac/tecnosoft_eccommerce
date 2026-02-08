@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+	<data>
+		<record id="product_feed_view_search" model="ir.ui.view">
+			<field name="name">product.feed</field>
+			<field name="model">product.feed</field>
+			<field name="arch" type="xml">
+			<search string="Feed">
+				<field name="store_id"/>
+					<field name="name"/>
+					<field name="default_code" filter_domain="['|', ('default_code', 'ilike', self), ('feed_variants.default_code', 'ilike', self)]"/>
+					<field name="barcode" filter_domain="['|', ('barcode', 'ilike', self), ('feed_variants.barcode', 'ilike', self)]"/>
+					<separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+					<group expand="0" string="Group By...">
+						<filter
+							string ="Instance"
+							name   ="filter_by_channel_id"
+							context="{'group_by':'channel_id'}"
+						/>
+						<filter
+							string ="State"
+							name   ='filter_by_state'
+							domain ="[]"
+							context="{'group_by':'state'}"
+						/>
+
+						<group string='Filters'>
+							<filter
+								icon   ="terp-check"
+								name   ="channel_id"
+								string ="Instance"
+								domain ="[]"
+								help   ="Instance"
+								context="{'group_by':'channel_id'}"
+							/>
+							<filter
+								icon   ="terp-check"
+								name   ="state"
+								string ="State"
+								domain ="[]"
+								help   ="Instance"
+								context="{'group_by':'state'}"
+							/>
+						</group>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="product_feed_view_form" model="ir.ui.view">
+			<field name="name">product.feed.form</field>
+			<field name="model">product.feed</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button
+							name  ="import_items"
+							invisible="state == 'done'"
+							string="Evaluate Feed"
+							type  ="object"
+							class ="oe_highlight"
+						/>
+						<button
+							name   ='open_mapping_view'
+							type   ='object'
+							string ='Mapping'
+							invisible="state not in ('done','update')"
+							context="{
+								'mapping_model':'channel.template.mappings',
+								'store_field':'store_product_id',
+							}"
+						/>
+						<button
+							name   ='open_mapping_view'
+							type   ='object'
+							string ='Variants Mapping'
+							invisible="state not in ('done','update')"
+							context="{
+								'mapping_model':'channel.product.mappings',
+								'store_field':'store_product_id',
+							}"
+						/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group name="primary_info">
+							<group>
+								<field
+									name    ="name"
+									readonly="state == 'done'"
+								/>
+								<field
+									name    ="store_id"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="default_code"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="wk_default_code"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="list_price"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="standard_price"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="type"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="is_storable"
+									readonly="state == 'done'"
+								/>
+							</group>
+							<group>
+								<field name="active"/>
+								<field
+									name    ="channel_id"
+									widget  ='selection'
+									readonly="state == 'done'"
+								/>
+								<field name="channel" readonly='1'/>
+								<field
+									name       ="extra_categ_ids"
+									placeholder='C1,C2,C3'
+									readonly="state == 'done'"
+								/>
+							</group>
+						</group>
+						<notebook>
+							<page name="general" string="General Info">
+								<group>
+									<group>
+										<field
+											name  ="image"
+											widget="image"
+											readonly="state == 'done'"
+										/>
+									</group>
+									<group>
+										<field
+											name ="image_url"
+											readonly="state == 'done'"
+										/>
+									</group>
+								</group>
+								<group>
+									<group>
+										<field
+											name ="qty_available"
+											readonly="state == 'done'"
+										/>
+										<field
+											name ="length"
+											readonly="state == 'done'"
+										/>
+										<field
+											name ="width"
+											readonly="state == 'done'"
+										/>
+										<field
+											name ="height"
+											readonly="state == 'done'"
+										/>
+									</group>
+									<group>
+										<field
+											name ="weight"
+											readonly="state == 'done'"
+										/>
+										<field
+											name ="weight_unit"
+											readonly="state == 'done'"
+										/>
+										<field
+											name ="dimensions_unit"
+											readonly="state == 'done'"
+										/>
+									</group>
+								</group>
+							</page>
+							<page name="description" string="Description">
+								<group>
+								<field
+									name ="description_sale"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="description_purchase"
+									readonly="state == 'done'"
+								/>
+								<field
+									name ="description"
+									readonly="state == 'done'"
+								/>
+								</group>
+							</page>
+							<page name="variants" string="Variants">
+								<field colpan='2' name="feed_variants">
+									<list>
+										<field name="qty_available"/>
+										<field name ="default_code"/>
+										<field name="list_price"/>
+										<field name="name_value"/>
+									</list>
+								</field>
+							</page>
+							<page name="extra" string='Extra'>
+								<group>
+									<group>
+										<field
+											name       ="wk_product_id_type"
+											readonly="state == 'done'"
+											placeholder="values can be wk_upc,wk_ean,wk_isbn"
+										/>
+									</group>
+									<group>
+								<field
+									name ="barcode"
+									readonly="state == 'done'"
+								/>
+									</group>
+									<group>
+									<field
+										name ="hs_code"
+										readonly="state == 'done'"
+									/>
+									</group>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<group class="oe_chatter">
+						<field name="message" string=" " readonly='1'/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="product_feed_view_tree" model="ir.ui.view">
+			<field name="name">product.feed.tree</field>
+			<field name="model">product.feed</field>
+			
+			<field name="arch" type="xml">
+				<list default_order="create_date desc" decoration-success="state == 'done'" decoration-warning="state == 'draft' or  state == 'update'" decoration-muted="state == 'cancel'" decoration-danger="state == 'error'"> 
+					<field name="channel_id"/>
+					<field name="name"/>
+					<field name="store_id"/>
+					<field name="default_code" optional="hide"/>
+					<field name="barcode" optional="hide"/>
+					<field name="create_date" optional="hide" string="Imported on"/>
+					<field name="write_date" optional="hide"/>
+					<field name="state" widget="badge" decoration-success = "state == 'done'" decoration-warning = "state == 'draft' or  state == 'update'" decoration-muted = "state == 'cancel'" decoration-danger = "state == 'error'"/>
+				</list>
+			</field>
+		</record>
+
+		<record id="action_product_feed" model="ir.actions.act_window">
+			<field name="name">Product Feeds</field>
+			<field name="res_model">product.feed</field>
+			<field name="view_mode">list,form</field>
+			<field name="view_id" ref="product_feed_view_tree"/>
+			<field name="context">
+{
+	"search_default_filter_by_state":1,
+	"search_default_filter_by_channel_id":1
+}
+			</field>
+		</record>
+
+		<menuitem
+			id      ="channel_product_feeds_menu_id"
+			name    ="Product"
+			parent  ="menu_channel_feeds"
+			action  ="action_product_feed"
+			sequence="2"
+		/>
+	</data>
+</odoo>

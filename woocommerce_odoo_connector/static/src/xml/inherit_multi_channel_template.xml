@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2015-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<templates xml:space="preserve">
+
+    <t t-inherit="odoo_multi_channel_sale.instance_dashboard_template" t-inherit-mode="extension">
+        <xpath expr="//div[@id='dashboard_image_container']" position="inside">
+            <img src="/woocommerce_odoo_connector/static/img/dashboard.png" alt="Not Found!" class="img-fluid" t-if="this.data.channel === 'woocommerce'"/>
+        </xpath>
+    </t>
+
+
+
+    <!-- <t t-extend="instance_dashboard_template">
+        <t t-jquery="#dashboard_image_container" t-operation="append">
+            <img src="/woocommerce_odoo_connector/static/img/dashboard.png" alt="Not Found!" class="img-fluid" t-if="widget.data.channel === 'woocommerce'" />
+        </t>
+    </t> -->
+</templates>
