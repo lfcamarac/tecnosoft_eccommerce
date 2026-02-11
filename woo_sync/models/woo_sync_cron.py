@@ -642,10 +642,13 @@ class WooSyncCron(models.AbstractModel):
                 'weight': str(template.weight) if template.weight else '',
                 'categories': self._get_woo_categories(
                     instance, api, template, cache),
-                'images': self._get_woo_images(template),
                 'attributes': self._build_woo_attribute_lines(
                     instance, api, template, cache),
             }
+            # Only send images if we have them, to avoid wiping existing WC images
+            imgs = self._get_woo_images(template)
+            if imgs:
+                data['images'] = imgs
         else:
             data = {
                 'name': template.name,
@@ -660,8 +663,11 @@ class WooSyncCron(models.AbstractModel):
                 'weight': str(template.weight) if template.weight else '',
                 'categories': self._get_woo_categories(
                     instance, api, template, cache),
-                'images': self._get_woo_images(template),
             }
+            # Only send images if we have them, to avoid wiping existing WC images
+            imgs = self._get_woo_images(template)
+            if imgs:
+                data['images'] = imgs
 
         result = self._woo_put(
             api, f'products/{mapping.woo_product_id}', data)
