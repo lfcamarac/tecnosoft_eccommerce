@@ -107,6 +107,7 @@ class WooSyncInstance(models.Model):
             timeout=self.woo_timeout,
             query_string_auth=True,
             verify_ssl=self.woo_verify_ssl,
+            user_agent="Odoo WooSync/1.0",
         )
 
     def action_test_connection(self):
