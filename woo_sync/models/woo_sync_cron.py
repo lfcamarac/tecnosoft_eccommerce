@@ -383,20 +383,28 @@ class WooSyncCron(models.AbstractModel):
             self._create_simple_product(instance, api, template, cache)
 
     def _match_by_barcode(self, template, woo_sku_index):
-        """Match template against pre-fetched WC SKU index by barcode.
+        """Match template against pre-fetched WC SKU index by barcode OR default_code.
         Returns WC product dict if found, None otherwise.
         """
         if not woo_sku_index:
             return None
 
-        # Check template barcode
-        if template.barcode and template.barcode.strip() in woo_sku_index:
-            return woo_sku_index[template.barcode.strip()]
+        # Helper to check key safely
+        def check(key):
+            if key and key.strip() in woo_sku_index:
+                return woo_sku_index[key.strip()]
+            return None
 
-        # Check variant barcodes
+        # Check template barcode & default_code
+        found = check(template.barcode) or check(template.default_code)
+        if found:
+            return found
+
+        # Check variant barcodes & default_code
         for variant in template.product_variant_ids:
-            if variant.barcode and variant.barcode.strip() in woo_sku_index:
-                return woo_sku_index[variant.barcode.strip()]
+            found = check(variant.barcode) or check(variant.default_code)
+            if found:
+                return found
 
         return None
 
