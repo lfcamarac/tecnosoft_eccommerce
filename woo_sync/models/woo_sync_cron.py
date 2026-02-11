@@ -146,16 +146,10 @@ class WooSyncCron(models.AbstractModel):
         # So we'll fetch just by this product's SKUs if creating.
         woo_sku_index = {}
         
-        # Collect SKUs to check (barcode or default_code)
-        skus_to_check = set()
-        if product_tmpl.barcode:
-            skus_to_check.add(product_tmpl.barcode)
         if product_tmpl.default_code:
             skus_to_check.add(product_tmpl.default_code)
             
         for variant in product_tmpl.product_variant_ids:
-            if variant.barcode:
-                skus_to_check.add(variant.barcode)
             if variant.default_code:
                 skus_to_check.add(variant.default_code)
                 
@@ -383,7 +377,7 @@ class WooSyncCron(models.AbstractModel):
             self._create_simple_product(instance, api, template, cache)
 
     def _match_by_barcode(self, template, woo_sku_index):
-        """Match template against pre-fetched WC SKU index by barcode OR default_code.
+        """Match template against pre-fetched WC SKU index by default_code only.
         Returns WC product dict if found, None otherwise.
         """
         if not woo_sku_index:
@@ -395,14 +389,14 @@ class WooSyncCron(models.AbstractModel):
                 return woo_sku_index[key.strip()]
             return None
 
-        # Check template barcode & default_code
-        found = check(template.barcode) or check(template.default_code)
+        # Check template default_code
+        found = check(template.default_code)
         if found:
             return found
 
-        # Check variant barcodes & default_code
+        # Check variant default_codes
         for variant in template.product_variant_ids:
-            found = check(variant.barcode) or check(variant.default_code)
+            found = check(variant.default_code)
             if found:
                 return found
 
