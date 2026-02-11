@@ -145,6 +145,7 @@ class WooSyncCron(models.AbstractModel):
         # Fetching ALL products is too slow for single sync. 
         # So we'll fetch just by this product's SKUs if creating.
         woo_sku_index = {}
+        skus_to_check = set()
         
         if product_tmpl.barcode:
             skus_to_check.add(product_tmpl.barcode)
