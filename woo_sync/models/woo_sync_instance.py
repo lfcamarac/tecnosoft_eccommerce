@@ -36,11 +36,17 @@ class WooSyncInstance(models.Model):
         default=lambda self: self.env['product.pricelist'].search(
             [('company_id', 'in', [self.env.company.id, False])], limit=1),
         help="Lista de precios para calcular el precio de exportación")
-    warehouse_id = fields.Many2one(
-        'stock.warehouse', string='Almacén',
-        default=lambda self: self.env['stock.warehouse'].search(
-            [('company_id', '=', self.env.company.id)], limit=1),
-        help="Almacén para calcular las cantidades de stock")
+    stock_source = fields.Selection([
+        ('global', 'Todas las bodegas (General)'),
+        ('specific', 'Bodegas específicas'),
+    ], default='global', string="Fuente de Stock", required=True)
+    
+    warehouse_ids = fields.Many2many(
+        'stock.warehouse', string='Bodegas',
+        help="Bodegas a considerar para el stock. Si se deja vacío en modo 'Específico', se asume 0.")
+    
+    # Deprecated single warehouse field
+    warehouse_id = fields.Many2one('stock.warehouse', string='Almacén (Obsoleto)')
     stock_type = fields.Selection([
         ('qty_available', 'Cantidad disponible'),
         ('free_qty', 'Cantidad libre'),
@@ -177,11 +183,23 @@ class WooSyncInstance(models.Model):
     def _get_product_qty(self, product):
         """Get stock quantity for a product.product based on config."""
         self.ensure_one()
-        product = product.with_context(
-            warehouse=self.warehouse_id.id,
-            location=self.warehouse_id.lot_stock_id.id,
-        )
-        return int(getattr(product, self.stock_type, 0))
+        if self.stock_source == 'global':
+            # Global stock (all warehouses)
+            product = product.with_context(warehouse=False, location=False)
+            return int(getattr(product, self.stock_type, 0))
+        
+        # Specific warehouses
+        if not self.warehouse_ids:
+            return 0
+            
+        total_qty = 0
+        for wh in self.warehouse_ids:
+             p_ctx = product.with_context(
+                 warehouse=wh.id,
+                 location=wh.lot_stock_id.id
+             )
+             total_qty += int(getattr(p_ctx, self.stock_type, 0))
+        return total_qty
 
     def _get_product_price(self, product):
         """Get price from the configured pricelist for a product.product."""

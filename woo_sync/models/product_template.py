@@ -43,3 +43,41 @@ class ProductTemplate(models.Model):
                 'type': 'success',
             }
         }
+
+    def action_woo_pull_images(self):
+        """Pull images from WooCommerce."""
+        self.ensure_one()
+        woo_instances = self.env['woo.sync.instance'].search([
+            ('state', '=', 'connected'),
+            ('active', '=', True),
+        ])
+
+        if not woo_instances:
+            raise UserError(_("No active WooCommerce instances found."))
+
+        sync_cron = self.env['woo.sync.cron']
+        success_count = 0
+        last_error = ""
+
+        for instance in woo_instances:
+            try:
+                sync_cron.pull_images_only(instance, self)
+                success_count += 1
+            except Exception as e:
+                _logger.exception("WooSync: Failed to pull image for %s from %s", self.name, instance.name)
+                last_error = str(e)
+                continue
+
+        if success_count == 0:
+             raise UserError(_("Image pull failed. Detail: %s") % last_error)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _("Image Pulled"),
+                'message': _("Image updated from WooCommerce."),
+                'sticky': False,
+                'type': 'success',
+            }
+        }

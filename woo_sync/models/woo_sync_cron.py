@@ -1,4 +1,6 @@
+import base64
 import logging
+import requests
 import time
 
 from odoo import api, fields, models
@@ -184,6 +186,67 @@ class WooSyncCron(models.AbstractModel):
             self.env.cr.commit()
         except Exception as e:
             self.env.cr.rollback()
+            raise e
+            
+    def pull_images_only(self, instance, product_tmpl):
+        """Pull main image from WooCommerce for this product."""
+        api = instance._get_woo_api()
+        
+        # 1. Try to find by mapping
+        mapping = self.env['woo.sync.template.mapping'].search([
+            ('instance_id', '=', instance.id),
+            ('product_tmpl_id', '=', product_tmpl.id),
+        ], limit=1)
+        
+        woo_id = mapping.woo_product_id if mapping else None
+        
+        # 2. If not mapped, try to find by SKU (Barcode or Code)
+        if not woo_id:
+            msg_prefix = f"[Pull Image] Product '{product_tmpl.name}' not mapped."
+            skus = []
+            if product_tmpl.barcode: skus.append(product_tmpl.barcode)
+            if product_tmpl.default_code: skus.append(product_tmpl.default_code)
+            
+            for sku in skus:
+                try:
+                    _logger.info("%s Trying SKU: %s", msg_prefix, sku)
+                    res = api.get('products', params={'sku': sku})
+                    if res.status_code == 200:
+                        products = res.json()
+                        if products:
+                            woo_id = products[0]['id']
+                            break
+                except Exception:
+                    pass
+        
+        if not woo_id:
+            raise Exception("No se encontró el producto en WooCommerce (ni por mapeo ni por SKU).")
+            
+        # 3. Fetch product data
+        try:
+            res = api.get(f'products/{woo_id}')
+            if res.status_code != 200:
+                raise Exception(f"Error fetching product {woo_id}: {res.text}")
+            
+            data = res.json()
+            images = data.get('images', [])
+            
+            if not images:
+                raise Exception("El producto en WooCommerce no tiene imágenes.")
+                
+            # 4. Download first image
+            img_url = images[0]['src']
+            _logger.info("Downloading image from: %s", img_url)
+            response = requests.get(img_url, timeout=10)
+            if response.status_code == 200:
+                product_tmpl.write({
+                    'image_1920': base64.b64encode(response.content)
+                })
+            else:
+                raise Exception(f"Failed to download image: {response.status_code}")
+                
+        except Exception as e:
+            raise Exception(f"Error pulling image: {str(e)}")
             _logger.exception(
                 "WooSync: Manual sync failed for '%s' [ID: %s]",
                 product_tmpl.name, product_tmpl.id)

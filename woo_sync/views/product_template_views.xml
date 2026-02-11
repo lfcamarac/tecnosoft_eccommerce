@@ -10,6 +10,10 @@
                         string="Sincronizar con Woo"
                         type="object"
                         class="btn-secondary"/>
+                <button name="action_woo_pull_images"
+                        string="Traer Imagen Woo"
+                        type="object"
+                        class="btn-secondary"/>
             </header>
         </field>
     </record>

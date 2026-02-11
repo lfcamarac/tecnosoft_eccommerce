@@ -71,7 +71,11 @@
                         </group>
                         <group string="Configuración de Sincronización">
                             <field name="pricelist_id"/>
-                            <field name="warehouse_id"/>
+                            <field name="pricelist_id"/>
+                            <field name="stock_source"/>
+                            <field name="warehouse_ids" widget="many2many_tags"
+                                   invisible="stock_source == 'global'"
+                                   required="stock_source == 'specific'"/>
                             <field name="stock_type"/>
                             <field name="default_woo_status"/>
                             <field name="sync_archived_as_draft"/>
