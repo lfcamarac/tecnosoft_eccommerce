@@ -146,12 +146,12 @@ class WooSyncCron(models.AbstractModel):
         # So we'll fetch just by this product's SKUs if creating.
         woo_sku_index = {}
         
-        if product_tmpl.default_code:
-            skus_to_check.add(product_tmpl.default_code)
+        if product_tmpl.barcode:
+            skus_to_check.add(product_tmpl.barcode)
             
         for variant in product_tmpl.product_variant_ids:
-            if variant.default_code:
-                skus_to_check.add(variant.default_code)
+            if variant.barcode:
+                skus_to_check.add(variant.barcode)
                 
         if skus_to_check and not cache['tmpl_map'].get(product_tmpl.id):
             # Only check if not already mapped locally
@@ -377,7 +377,7 @@ class WooSyncCron(models.AbstractModel):
             self._create_simple_product(instance, api, template, cache)
 
     def _match_by_barcode(self, template, woo_sku_index):
-        """Match template against pre-fetched WC SKU index by default_code only.
+        """Match template against pre-fetched WC SKU index by barcode only.
         Returns WC product dict if found, None otherwise.
         """
         if not woo_sku_index:
@@ -389,14 +389,14 @@ class WooSyncCron(models.AbstractModel):
                 return woo_sku_index[key.strip()]
             return None
 
-        # Check template default_code
-        found = check(template.default_code)
+        # Check template barcode
+        found = check(template.barcode)
         if found:
             return found
 
-        # Check variant default_codes
+        # Check variant barcodes
         for variant in template.product_variant_ids:
-            found = check(variant.default_code)
+            found = check(variant.barcode)
             if found:
                 return found
 
