@@ -13,6 +13,7 @@
         "views/woo_sync_mapping_views.xml",
         "views/woo_sync_log_views.xml",
         "views/menu.xml",
+        "views/product_template_views.xml",
         "data/cron.xml",
     ],
     "external_dependencies": {"python": ["woocommerce"]},

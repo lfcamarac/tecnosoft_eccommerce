@@ -131,6 +131,98 @@ class WooSyncCron(models.AbstractModel):
         self.env.cr.commit()
 
     # -------------------------------------------------------------------------
+    # SINGLE PRODUCT SYNC (MANUAL)
+    # -------------------------------------------------------------------------
+
+    def sync_specific_product(self, instance, product_tmpl):
+        """Sync a single product immediately (manual trigger)."""
+        api = instance._get_woo_api()
+        # Build minimal cache for just this product
+        cache = self._build_single_product_cache(instance, product_tmpl)
+        
+        # We don't need full SKU index for single update usually, unless creating
+        # But if creating, we might want to check if it exists by SKU to avoid dupes.
+        # Fetching ALL products is too slow for single sync. 
+        # So we'll fetch just by this product's SKUs if creating.
+        woo_sku_index = {}
+        if product_tmpl.barcode or product_tmpl.product_variant_ids.mapped('barcode'):
+             # Optional: implement a targeted SKU lookup if strictly needed
+             # For now, we will rely on mapped existence or basic creation
+             pass
+
+        try:
+            self._sync_one_template(
+                instance, api, product_tmpl, cache, woo_sku_index)
+            # Find the log for this operation to link if needed, or just commit
+            self.env.cr.commit()
+        except Exception as e:
+            self.env.cr.rollback()
+            _logger.exception(
+                "WooSync: Manual sync failed for '%s' [ID: %s]",
+                product_tmpl.name, product_tmpl.id)
+            self._create_log(
+                instance, 'product', 'error',
+                product_tmpl_id=product_tmpl.id,
+                message=f"Manual Error: {str(e)[:500]}")
+            self.env.cr.commit()
+            raise e
+
+    def _build_single_product_cache(self, instance, product_tmpl):
+        """Build a cache dict containing ONLY data relevant for one product."""
+        # 1. Template mapping
+        tmpl_mapping = self.env['woo.sync.template.mapping'].search([
+            ('instance_id', '=', instance.id),
+            ('product_tmpl_id', '=', product_tmpl.id),
+        ], limit=1)
+        
+        tmpl_map = {product_tmpl.id: tmpl_mapping} if tmpl_mapping else {}
+        
+        # 2. Category mappings (only for this product's category and parents)
+        cat_map = {}
+        categ = product_tmpl.categ_id
+        while categ:
+            mapping = self.env['woo.sync.category.mapping'].search([
+                ('instance_id', '=', instance.id),
+                ('category_id', '=', categ.id),
+            ], limit=1)
+            if mapping:
+                cat_map[categ.id] = mapping.woo_category_id
+            categ = categ.parent_id
+
+        # 3. Attribute mappings
+        # Check attributes used by this product
+        attr_map = {}
+        val_map = {}
+        
+        for line in product_tmpl.attribute_line_ids:
+            attr = line.attribute_id
+            # Attribute Mapping
+            a_map = self.env['woo.sync.attribute.mapping'].search([
+                ('instance_id', '=', instance.id),
+                ('attribute_id', '=', attr.id),
+            ], limit=1)
+            if a_map:
+                attr_map[attr.id] = a_map.woo_attribute_id
+            
+            # Value Mappings
+            for val in line.value_ids:
+                v_map = self.env['woo.sync.attribute.value.mapping'].search([
+                    ('instance_id', '=', instance.id),
+                    ('attribute_value_id', '=', val.id),
+                ], limit=1)
+                if v_map:
+                    val_map[val.id] = v_map.woo_term_id
+
+        return {
+            'tmpl_map': tmpl_map,
+            'cat_map': cat_map,
+            'attr_map': attr_map,
+            'val_map': val_map,
+            'unmapped_tmpl_ids': set() if tmpl_mapping else {product_tmpl.id},
+        }
+
+
+    # -------------------------------------------------------------------------
     # IN-MEMORY CACHES (avoid repeated DB queries)
     # -------------------------------------------------------------------------
 
