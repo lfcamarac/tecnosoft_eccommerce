@@ -9,8 +9,7 @@
                 <button name="action_woo_push_product"
                         string="Sincronizar con Woo"
                         type="object"
-                        class="btn-secondary"
-                        groups="base.group_system"/>
+                        class="btn-secondary"/>
             </header>
         </field>
     </record>
