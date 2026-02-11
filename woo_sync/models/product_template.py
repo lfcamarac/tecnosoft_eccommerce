@@ -45,8 +45,10 @@ class ProductTemplate(models.Model):
         }
 
     def action_woo_pull_images(self):
-        """Pull images from WooCommerce."""
-        self.ensure_one()
+        """Pull images from WooCommerce for selected products."""
+        if not self:
+            return
+            
         woo_instances = self.env['woo.sync.instance'].search([
             ('state', '=', 'connected'),
             ('active', '=', True),
@@ -57,27 +59,29 @@ class ProductTemplate(models.Model):
 
         sync_cron = self.env['woo.sync.cron']
         success_count = 0
-        last_error = ""
+        error_count = 0
+        
+        for record in self:
+            for instance in woo_instances:
+                try:
+                    sync_cron.pull_images_only(instance, record)
+                    success_count += 1
+                except Exception:
+                    # Log but continue processing others
+                    _logger.exception("WooSync: Failed to pull image for %s", record.name)
+                    error_count += 1
+                    continue
 
-        for instance in woo_instances:
-            try:
-                sync_cron.pull_images_only(instance, self)
-                success_count += 1
-            except Exception as e:
-                _logger.exception("WooSync: Failed to pull image for %s from %s", self.name, instance.name)
-                last_error = str(e)
-                continue
-
-        if success_count == 0:
-             raise UserError(_("Image pull failed. Detail: %s") % last_error)
+        if success_count == 0 and error_count > 0:
+             raise UserError(_("Image pull failed for all selected products. Check logs."))
 
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _("Image Pulled"),
-                'message': _("Image updated from WooCommerce."),
+                'title': _("Batch Image Pull"),
+                'message': _("Updated %d products. Failures: %d.") % (success_count, error_count),
                 'sticky': False,
-                'type': 'success',
+                'type': 'success' if error_count == 0 else 'warning',
             }
         }

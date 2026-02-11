@@ -17,4 +17,15 @@
             </header>
         </field>
     </record>
+
+    <record id="action_pull_images_multi" model="ir.actions.server">
+        <field name="name">Traer Imágenes de Woo</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_woo_pull_images()
+        </field>
+    </record>
 </odoo>
