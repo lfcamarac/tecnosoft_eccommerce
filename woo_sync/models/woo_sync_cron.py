@@ -148,10 +148,14 @@ class WooSyncCron(models.AbstractModel):
         
         if product_tmpl.barcode:
             skus_to_check.add(product_tmpl.barcode)
+        if product_tmpl.default_code:
+            skus_to_check.add(product_tmpl.default_code)
             
         for variant in product_tmpl.product_variant_ids:
             if variant.barcode:
                 skus_to_check.add(variant.barcode)
+            if variant.default_code:
+                skus_to_check.add(variant.default_code)
                 
         if skus_to_check and not cache['tmpl_map'].get(product_tmpl.id):
             # Only check if not already mapped locally
@@ -377,8 +381,10 @@ class WooSyncCron(models.AbstractModel):
             self._create_simple_product(instance, api, template, cache)
 
     def _match_by_barcode(self, template, woo_sku_index):
-        """Match template against pre-fetched WC SKU index by barcode only.
-        Returns WC product dict if found, None otherwise.
+        """Match template against pre-fetched WC SKU index.
+        Priority:
+        1. Match by Barcode (Odoo Barcode == Woo SKU)
+        2. Match by Internal Reference (Odoo default_code == Woo SKU)
         """
         if not woo_sku_index:
             return None
@@ -389,14 +395,22 @@ class WooSyncCron(models.AbstractModel):
                 return woo_sku_index[key.strip()]
             return None
 
-        # Check template barcode
+        # 1. Try match by Barcode
         found = check(template.barcode)
         if found:
             return found
+            
+        # 2. Fallback: Try match by Internal Reference (default_code)
+        found = check(template.default_code)
+        if found:
+            return found
 
-        # Check variant barcodes
+        # Check variants (same logic: Barcode then Reference)
         for variant in template.product_variant_ids:
             found = check(variant.barcode)
+            if found:
+                return found
+            found = check(variant.default_code)
             if found:
                 return found
 
