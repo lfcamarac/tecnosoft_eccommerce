@@ -6,7 +6,10 @@ _logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
-
+    woo_pending_image_pull = fields.Boolean(
+        string="Pendiente Foto Woo",
+        default=False,
+        help="Indica que este producto debe descargar su foto desde WooCommerce en la próxima ejecución del cron.")
     def action_woo_push_product(self):
         """Manually trigger sync for this product to all active Woo instances."""
         self.ensure_one()
@@ -57,6 +60,23 @@ class ProductTemplate(models.Model):
         if not woo_instances:
             raise UserError(_("No active WooCommerce instances found."))
 
+        # Determine mode: Synchronous (few items) vs Asynchronous (many items)
+        # Threshold: 10 items. Above this, we schedule background job.
+        count = len(self)
+        if count > 10:
+            self.write({'woo_pending_image_pull': True})
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _("Background Pull Scheduled"),
+                    'message': _("%d products marked for image download. They will be processed in the background.") % count,
+                    'sticky': False,
+                    'type': 'info',
+                }
+            }
+            
+        # Synchronous execution for small batches
         sync_cron = self.env['woo.sync.cron']
         success_count = 0
         error_count = 0
@@ -79,7 +99,7 @@ class ProductTemplate(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _("Batch Image Pull"),
+                'title': _("Image Pull Complete"),
                 'message': _("Updated %d products. Failures: %d.") % (success_count, error_count),
                 'sticky': False,
                 'type': 'success' if error_count == 0 else 'warning',

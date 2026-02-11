@@ -23,6 +23,55 @@ class WooSyncCron(models.AbstractModel):
     # -------------------------------------------------------------------------
 
     @api.model
+    def _cron_pull_images(self):
+        """Cron entry: pull images for products marked with 'woo_pending_image_pull'."""
+        # Find products pending image pull
+        pending_products = self.env['product.template'].search([
+            ('woo_pending_image_pull', '=', True),
+            ('active', 'in', [True, False]) # Include archived
+        ], limit=100) # Process in batches of 100
+        
+        if not pending_products:
+            return
+            
+        instances = self.env['woo.sync.instance'].search([
+            ('state', '=', 'connected'),
+            ('active', '=', True),
+        ])
+        
+        if not instances:
+            return
+
+        _logger.info("WooSync: Starting background image pull for %d products", len(pending_products))
+        start_time = time.time()
+        
+        for product in pending_products:
+            # Check timeout (50 min limit safety, though usage is lower here)
+            if time.time() - start_time > MAX_CRON_SECONDS:
+                break
+                
+            # Try pulling from FIRST connected instance (usually just one)
+            # If multiple instances exist, we assume same image source or pick first.
+            synced = False
+            for instance in instances:
+                try:
+                    self.pull_images_only(instance, product)
+                    synced = True
+                    # If successful, uncheck flag and stop trying other instances for this product
+                    product.write({'woo_pending_image_pull': False})
+                    self.env.cr.commit()
+                    break
+                except Exception as e:
+                    _logger.warning("WooSync: Failed background pull for %s: %s", product.name, e)
+            
+            if not synced:
+                 # Logic for failed sync: leave flag TRUE but commit so we don't block?
+                 # Or maybe uncheck to avoid loop? 
+                 # Let's count failures or strict timeout?
+                 # For now, just commit and move on. It will retry next run.
+                 self.env.cr.commit()
+
+    @api.model
     def _cron_full_sync(self):
         """Cron entry: full product sync for all connected instances."""
         instances = self.env['woo.sync.instance'].search([

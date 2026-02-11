@@ -28,5 +28,18 @@
             <field name="priority">5</field>
         </record>
 
+        <!-- Image Pull Cron: processes 'woo_pending_image_pull' queue -->
+        <record id="cron_woo_pull_images" model="ir.cron">
+            <field name="name">WooSync: Descarga de Imágenes (Cola)</field>
+            <field name="model_id" ref="model_woo_sync_cron"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_pull_images()</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="priority">5</field>
+        </record>
+
     </data>
 </odoo>
