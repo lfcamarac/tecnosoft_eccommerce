@@ -23,11 +23,12 @@ class ProductTemplate(models.Model):
                 sync_cron.sync_specific_product(instance, self)
                 success_count += 1
             except Exception as e:
-                # Log error but continue
+                _logger.exception("WooSync: Failed to push product %s to instance %s", self.name, instance.name)
+                last_error = str(e)
                 continue
 
         if success_count == 0:
-             raise UserError(_("Product sync failed. Check logs for details."))
+             raise UserError(_("Product sync failed. Detail: %s") % last_error)
 
         return {
             'type': 'ir.actions.client',

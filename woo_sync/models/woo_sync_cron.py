@@ -161,20 +161,20 @@ class WooSyncCron(models.AbstractModel):
             # Only check if not already mapped locally
             for sku in skus_to_check:
                 try:
-                    _logger.info("WooSync: Buscando SKU individual: '%s'", sku)
+                    _logger.warning("WooSync [DEBUG]: Buscando SKU individual: '%s'", sku)
                     res = api.get('products', params={'sku': sku})
-                    _logger.info("WooSync: Respuesta API para '%s': %s", sku, res.status_code)
+                    _logger.warning("WooSync [DEBUG]: Respuesta API para '%s': %s", sku, res.status_code)
                     if res.status_code == 200:
                         products = res.json()
-                        _logger.info("WooSync: Encontrados %d productos para SKU '%s'", len(products), sku)
+                        _logger.warning("WooSync [DEBUG]: Encontrados %d productos para SKU '%s'", len(products), sku)
                         for p in products:
                              p_sku = (p.get('sku') or '').strip()
                              if p_sku:
                                  woo_sku_index[p_sku] = p
                     else:
-                        _logger.warning("WooSync: Falló búsqueda de SKU '%s'. Contenido: %s", sku, res.text)
+                        _logger.warning("WooSync [DEBUG]: Falló búsqueda de SKU '%s'. Contenido: %s", sku, res.text)
                 except Exception as e:
-                    _logger.error("WooSync: Excepción buscando SKU '%s': %s", sku, e)
+                    _logger.error("WooSync [DEBUG]: Excepción buscando SKU '%s': %s", sku, e)
 
         try:
             self._sync_one_template(
