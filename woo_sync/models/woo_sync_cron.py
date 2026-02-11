@@ -145,10 +145,33 @@ class WooSyncCron(models.AbstractModel):
         # Fetching ALL products is too slow for single sync. 
         # So we'll fetch just by this product's SKUs if creating.
         woo_sku_index = {}
-        if product_tmpl.barcode or product_tmpl.product_variant_ids.mapped('barcode'):
-             # Optional: implement a targeted SKU lookup if strictly needed
-             # For now, we will rely on mapped existence or basic creation
-             pass
+        
+        # Collect SKUs to check (barcode or default_code)
+        skus_to_check = set()
+        if product_tmpl.barcode:
+            skus_to_check.add(product_tmpl.barcode)
+        if product_tmpl.default_code:
+            skus_to_check.add(product_tmpl.default_code)
+            
+        for variant in product_tmpl.product_variant_ids:
+            if variant.barcode:
+                skus_to_check.add(variant.barcode)
+            if variant.default_code:
+                skus_to_check.add(variant.default_code)
+                
+        if skus_to_check and not cache['tmpl_map'].get(product_tmpl.id):
+            # Only check if not already mapped locally
+            for sku in skus_to_check:
+                try:
+                    res = api.get('products', params={'sku': sku})
+                    if res.status_code == 200:
+                        products = res.json()
+                        for p in products:
+                             p_sku = (p.get('sku') or '').strip()
+                             if p_sku:
+                                 woo_sku_index[p_sku] = p
+                except Exception:
+                    pass
 
         try:
             self._sync_one_template(
