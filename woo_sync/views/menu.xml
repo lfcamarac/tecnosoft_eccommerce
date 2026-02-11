@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Top-level app menu -->
+    <menuitem id="menu_woo_sync_root"
+              name="WooSync"
+              web_icon="woo_sync,static/description/icon.png"
+              sequence="90"/>
+
+    <!-- Submenu items -->
+    <menuitem id="menu_woo_sync_instances"
+              name="Instancias"
+              parent="menu_woo_sync_root"
+              action="action_woo_sync_instance"
+              sequence="10"/>
+
+    <menuitem id="menu_woo_sync_mappings"
+              name="Mapeos"
+              parent="menu_woo_sync_root"
+              sequence="20"/>
+
+    <menuitem id="menu_woo_sync_product_mappings"
+              name="Productos"
+              parent="menu_woo_sync_mappings"
+              action="action_woo_sync_template_mapping"
+              sequence="10"/>
+
+    <menuitem id="menu_woo_sync_category_mappings"
+              name="Categorías"
+              parent="menu_woo_sync_mappings"
+              action="action_woo_sync_category_mapping"
+              sequence="20"/>
+
+    <menuitem id="menu_woo_sync_logs"
+              name="Logs"
+              parent="menu_woo_sync_root"
+              action="action_woo_sync_log"
+              sequence="30"/>
+
+</odoo>

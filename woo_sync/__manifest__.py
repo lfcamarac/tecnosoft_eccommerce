@@ -1,0 +1,22 @@
+{
+    "name": "WooSync - Odoo to WooCommerce Sync",
+    "summary": "Sincronización de productos, stock y precios de Odoo a WooCommerce por cron",
+    "version": "18.0.1.0.0",
+    "category": "Sales",
+    "author": "TecnoSoft",
+    "license": "LGPL-3",
+    "depends": ["product", "stock", "sale"],
+    "data": [
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "views/woo_sync_instance_views.xml",
+        "views/woo_sync_mapping_views.xml",
+        "views/woo_sync_log_views.xml",
+        "views/menu.xml",
+        "data/cron.xml",
+    ],
+    "external_dependencies": {"python": ["woocommerce"]},
+    "application": True,
+    "installable": True,
+    "auto_install": False,
+}

@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+user_woo_sync_instance,woo.sync.instance.user,model_woo_sync_instance,group_woo_sync_user,1,0,0,0
+manager_woo_sync_instance,woo.sync.instance.manager,model_woo_sync_instance,group_woo_sync_manager,1,1,1,1
+user_woo_sync_template_mapping,woo.sync.template.mapping.user,model_woo_sync_template_mapping,group_woo_sync_user,1,0,0,0
+manager_woo_sync_template_mapping,woo.sync.template.mapping.manager,model_woo_sync_template_mapping,group_woo_sync_manager,1,1,1,1
+user_woo_sync_variant_mapping,woo.sync.variant.mapping.user,model_woo_sync_variant_mapping,group_woo_sync_user,1,0,0,0
+manager_woo_sync_variant_mapping,woo.sync.variant.mapping.manager,model_woo_sync_variant_mapping,group_woo_sync_manager,1,1,1,1
+user_woo_sync_category_mapping,woo.sync.category.mapping.user,model_woo_sync_category_mapping,group_woo_sync_user,1,0,0,0
+manager_woo_sync_category_mapping,woo.sync.category.mapping.manager,model_woo_sync_category_mapping,group_woo_sync_manager,1,1,1,1
+user_woo_sync_attribute_mapping,woo.sync.attribute.mapping.user,model_woo_sync_attribute_mapping,group_woo_sync_user,1,0,0,0
+manager_woo_sync_attribute_mapping,woo.sync.attribute.mapping.manager,model_woo_sync_attribute_mapping,group_woo_sync_manager,1,1,1,1
+user_woo_sync_attribute_value_mapping,woo.sync.attribute.value.mapping.user,model_woo_sync_attribute_value_mapping,group_woo_sync_user,1,0,0,0
+manager_woo_sync_attribute_value_mapping,woo.sync.attribute.value.mapping.manager,model_woo_sync_attribute_value_mapping,group_woo_sync_manager,1,1,1,1
+user_woo_sync_log,woo.sync.log.user,model_woo_sync_log,group_woo_sync_user,1,0,0,0
+manager_woo_sync_log,woo.sync.log.manager,model_woo_sync_log,group_woo_sync_manager,1,1,1,1

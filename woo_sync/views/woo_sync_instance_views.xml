@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="woo_sync_instance_form" model="ir.ui.view">
+        <field name="name">woo.sync.instance.form</field>
+        <field name="model">woo.sync.instance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_connection"
+                            string="Probar Conexión"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state == 'connected'"/>
+                    <button name="action_test_connection"
+                            string="Reconectar"
+                            type="object"
+                            invisible="state != 'error'"/>
+                    <button name="action_sync_now"
+                            string="Sincronizar Todo"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'connected'"
+                            confirm="Esto sincronizará todos los productos con WooCommerce. ¿Continuar?"/>
+                    <button name="action_sync_stock_price"
+                            string="Sincronizar Stock y Precios"
+                            type="object"
+                            invisible="state != 'connected'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_mappings"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-link">
+                            <field name="template_mapping_count"
+                                   widget="statinfo"
+                                   string="Productos"/>
+                        </button>
+                        <button name="action_view_logs"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-list-alt">
+                            <field name="log_count"
+                                   widget="statinfo"
+                                   string="Logs"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archivado"
+                            bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre de la instancia"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Conexión WooCommerce">
+                            <field name="woo_url"
+                                   placeholder="https://mitienda.com"
+                                   widget="url"/>
+                            <field name="woo_consumer_key"
+                                   password="True"/>
+                            <field name="woo_consumer_secret"
+                                   password="True"/>
+                            <field name="woo_timeout"/>
+                            <field name="woo_verify_ssl"/>
+                        </group>
+                        <group string="Configuración de Sincronización">
+                            <field name="pricelist_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="stock_type"/>
+                            <field name="default_woo_status"/>
+                            <field name="sync_archived_as_draft"/>
+                            <field name="batch_size"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Filtro de Productos">
+                        <field name="product_domain"
+                               widget="domain"
+                               options="{'model': 'product.template'}"
+                               colspan="2"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                    <notebook>
+                        <page string="Mapeos de Productos"
+                              name="mappings">
+                            <field name="template_mapping_ids" readonly="1">
+                                <list>
+                                    <field name="product_tmpl_id"/>
+                                    <field name="woo_product_id"/>
+                                    <field name="woo_product_type"/>
+                                    <field name="last_sync_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Categorías" name="categories">
+                            <field name="category_mapping_ids" readonly="1">
+                                <list>
+                                    <field name="category_id"/>
+                                    <field name="woo_category_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Atributos" name="attributes">
+                            <field name="attribute_mapping_ids" readonly="1">
+                                <list>
+                                    <field name="attribute_id"/>
+                                    <field name="woo_attribute_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Logs Recientes" name="logs">
+                            <field name="log_ids" readonly="1" limit="50">
+                                <list decoration-danger="status == 'error'"
+                                      decoration-success="status == 'success'"
+                                      decoration-warning="status == 'warning'">
+                                    <field name="create_date" string="Fecha"/>
+                                    <field name="sync_type"/>
+                                    <field name="status"/>
+                                    <field name="product_tmpl_id"/>
+                                    <field name="message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="woo_sync_instance_list" model="ir.ui.view">
+        <field name="name">woo.sync.instance.list</field>
+        <field name="model">woo.sync.instance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="woo_url" widget="url"/>
+                <field name="state"
+                       decoration-success="state == 'connected'"
+                       decoration-danger="state == 'error'"
+                       decoration-muted="state == 'draft'"
+                       widget="badge"/>
+                <field name="template_mapping_count" string="Productos"/>
+                <field name="company_id"
+                       groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_woo_sync_instance" model="ir.actions.act_window">
+        <field name="name">Instancias WooSync</field>
+        <field name="res_model">woo.sync.instance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
