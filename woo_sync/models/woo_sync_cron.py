@@ -12,6 +12,10 @@ _logger = logging.getLogger(__name__)
 CHUNK_SIZE = 500
 # Max time per cron run (50 min) to avoid Odoo worker timeout
 MAX_CRON_SECONDS = 50 * 60
+# Number of images to process per cron run
+BATCH_SIZE = 500
+# Number of images to process per cron run
+BATCH_SIZE = 500
 
 
 class WooSyncCron(models.AbstractModel):
@@ -29,7 +33,7 @@ class WooSyncCron(models.AbstractModel):
         pending_products = self.env['product.template'].search([
             ('woo_pending_image_pull', '=', True),
             ('active', 'in', [True, False]) # Include archived
-        ], limit=100) # Process in batches of 100
+        ], limit=BATCH_SIZE)
         
         if not pending_products:
             return
@@ -42,16 +46,20 @@ class WooSyncCron(models.AbstractModel):
         if not instances:
             return
 
-        _logger.info("WooSync: Starting background image pull for %d products", len(pending_products))
+        count_total = len(pending_products)
+        _logger.info("WooSync: Starting background image pull for %d products", count_total)
         start_time = time.time()
         
+        stats = {'processed': 0, 'success': 0, 'failed': 0, 'errors': []}
+
         for product in pending_products:
             # Check timeout (50 min limit safety, though usage is lower here)
             if time.time() - start_time > MAX_CRON_SECONDS:
                 break
                 
+            stats['processed'] += 1
+            
             # Try pulling from FIRST connected instance (usually just one)
-            # If multiple instances exist, we assume same image source or pick first.
             synced = False
             for instance in instances:
                 try:
@@ -60,16 +68,32 @@ class WooSyncCron(models.AbstractModel):
                     # If successful, uncheck flag and stop trying other instances for this product
                     product.write({'woo_pending_image_pull': False})
                     self.env.cr.commit()
+                    stats['success'] += 1
                     break
                 except Exception as e:
-                    _logger.warning("WooSync: Failed background pull for %s: %s", product.name, e)
+                    msg = f"{product.name}: {str(e)}"
+                    _logger.warning("WooSync: Failed background pull for %s", msg)
+                    stats['errors'].append(msg)
             
             if not synced:
-                 # Logic for failed sync: leave flag TRUE but commit so we don't block?
-                 # Or maybe uncheck to avoid loop? 
-                 # Let's count failures or strict timeout?
-                 # For now, just commit and move on. It will retry next run.
+                 stats['failed'] += 1
+                 # Commit to save progress even on failure, but flag remains True
+                 # so it might be retried or needs manual intervention.
                  self.env.cr.commit()
+
+        # Log summary
+        if instances and stats['processed'] > 0:
+            log_instance = instances[0]
+            log_type = 'info' if stats['failed'] == 0 else 'warning'
+            summary = (
+                f"Background Image Pull: Processed {stats['processed']} of {count_total} in queue. "
+                f"Success: {stats['success']}, Failed: {stats['failed']}."
+            )
+            if stats['errors']:
+                summary += "\n\nErrors (Last 10):\n" + "\n".join(stats['errors'][:10])
+            
+            self._create_log(log_instance, 'image', log_type, summary)
+            self.env.cr.commit()
 
     @api.model
     def _cron_full_sync(self):
