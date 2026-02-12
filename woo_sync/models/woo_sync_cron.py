@@ -15,7 +15,7 @@ MAX_CRON_SECONDS = 50 * 60
 # Number of images to process per cron run
 BATCH_SIZE = 500
 # Number of images to process per cron run
-BATCH_SIZE = 500
+BATCH_SIZE = 50
 
 
 class WooSyncCron(models.AbstractModel):
@@ -67,13 +67,16 @@ class WooSyncCron(models.AbstractModel):
                     synced = True
                     # If successful, uncheck flag and stop trying other instances for this product
                     product.write({'woo_pending_image_pull': False})
+                    # Commit frequently to ensure progress is saved preventing loop from appearing stuck
                     self.env.cr.commit()
                     stats['success'] += 1
                     break
                 except Exception as e:
-                    msg = f"{product.name}: {str(e)}"
+                    # Log concisely to avoid spamming logs
+                    msg = f"{product.name}: {str(e)[:200]}"
                     _logger.warning("WooSync: Failed background pull for %s", msg)
                     stats['errors'].append(msg)
+                    # Don't break loop, try next instance if multiple connected (rare)
             
             if not synced:
                  stats['failed'] += 1
@@ -295,26 +298,28 @@ class WooSyncCron(models.AbstractModel):
         if not woo_id:
             raise Exception("No se encontró el producto en WooCommerce (ni por mapeo ni por SKU).")
             
-        # 3. Fetch product data
-        try:
-            res = api.get(f'products/{woo_id}')
-            if res.status_code != 200:
-                raise Exception(f"Error fetching product {woo_id}: {res.text}")
-            
-            data = res.json()
-            images = data.get('images', [])
-            
-            if not images:
-                raise Exception("El producto en WooCommerce no tiene imágenes.")
+            # 3. Fetch product data (Optimized: only needed fields)
+            try:
+                res = api.get(f'products/{woo_id}', params={'fields': 'id,images'})
+                if res.status_code != 200:
+                    raise Exception(f"Error fetching product {woo_id}: {res.text}")
                 
-            # 4. Download first image
-            img_url = images[0]['src']
-            _logger.info("Downloading image from: %s", img_url)
-            response = requests.get(img_url, timeout=10)
-            if response.status_code == 200:
-                product_tmpl.write({
-                    'image_1920': base64.b64encode(response.content)
-                })
+                data = res.json()
+                images = data.get('images', [])
+                
+                if not images:
+                    raise Exception("El producto en WooCommerce no tiene imágenes.")
+                    
+                # 4. Download first image
+                img_url = images[0]['src']
+                _logger.info("Downloading image from: %s", img_url)
+                
+                # Timeout safety for download
+                response = requests.get(img_url, timeout=15)
+                if response.status_code == 200:
+                    product_tmpl.write({
+                        'image_1920': base64.b64encode(response.content)
+                    })
             else:
                 raise Exception(f"Failed to download image: {response.status_code}")
                 
@@ -328,7 +333,7 @@ class WooSyncCron(models.AbstractModel):
                 product_tmpl_id=product_tmpl.id,
                 message=f"Manual Error: {str(e)[:500]}")
             self.env.cr.commit()
-            raise e
+            raise e  # Re-raise to be caught by cron loop
 
     def _build_single_product_cache(self, instance, product_tmpl):
         """Build a cache dict containing ONLY data relevant for one product."""
