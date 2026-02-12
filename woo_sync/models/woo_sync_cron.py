@@ -661,8 +661,10 @@ class WooSyncCron(models.AbstractModel):
             'status': instance.default_woo_status,
             'categories': self._get_woo_categories(
                 instance, api, template, cache),
-            'images': self._get_woo_images(template),
         }
+        
+        if instance.sync_images:
+            data['images'] = self._get_woo_images(template)
 
         result = self._woo_post(api, 'products', data)
         woo_id = result.get('id')
@@ -707,9 +709,11 @@ class WooSyncCron(models.AbstractModel):
             'weight': str(template.weight) if template.weight else '',
             'categories': self._get_woo_categories(
                 instance, api, template, cache),
-            'images': self._get_woo_images(template),
             'attributes': attributes,
         }
+        
+        if instance.sync_images:
+             data['images'] = self._get_woo_images(template)
 
         result = self._woo_post(api, 'products', data)
         woo_id = result.get('id')
@@ -800,10 +804,11 @@ class WooSyncCron(models.AbstractModel):
                 'categories': self._get_woo_categories(
                     instance, api, template, cache),
             }
-            # Only send images if we have them, to avoid wiping existing WC images
-            imgs = self._get_woo_images(template)
-            if imgs:
-                data['images'] = imgs
+            # Only send images if allowed and present
+            if instance.sync_images:
+                imgs = self._get_woo_images(template)
+                if imgs:
+                    data['images'] = imgs
 
         result = self._woo_put(
             api, f'products/{mapping.woo_product_id}', data)
@@ -907,6 +912,8 @@ class WooSyncCron(models.AbstractModel):
             ('woo_product_type', '=', 'simple'),
             ('product_tmpl_id.active', '=', True),
         ])
+        
+        _logger.info("WooSync: Found %d simple product mappings for stock/price sync.", len(simple_mappings))
 
         simple_batch = []
         for mapping in simple_mappings:
@@ -940,6 +947,8 @@ class WooSyncCron(models.AbstractModel):
             ('woo_product_type', '=', 'variable'),
             ('product_tmpl_id.active', '=', True),
         ])
+
+        _logger.info("WooSync: Found %d variable product mappings for stock/price sync.", len(variable_mappings))
 
         for tmpl_mapping in variable_mappings:
             try:

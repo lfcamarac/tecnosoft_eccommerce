@@ -65,6 +65,10 @@ class WooSyncInstance(models.Model):
         ('draft', 'Borrador'),
         ('private', 'Privado'),
     ], default='publish', string="Estado por defecto en WooCommerce")
+    
+    sync_images = fields.Boolean(
+        "Sincronizar Imágenes", default=True,
+        help="Si se desmarca, Odoo NUNCA enviará ni actualizará imágenes en WooCommerce.")
 
     # Batch settings
     batch_size = fields.Integer(
