@@ -27,6 +27,11 @@
                             string="Sincronizar Stock y Precios"
                             type="object"
                             invisible="state != 'connected'"/>
+                    <button name="action_map_by_barcode"
+                            string="Mapear por Barcode/SKU"
+                            type="object"
+                            invisible="state != 'connected'"
+                            confirm="Se compararán los barcode/referencia interna de Odoo con los SKU de WooCommerce para crear mapeos. ¿Continuar?"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,connected"/>
                 </header>

@@ -184,6 +184,25 @@ class WooSyncInstance(models.Model):
             },
         }
 
+    def action_map_by_barcode(self):
+        """Map unmapped products by comparing barcode/default_code with WC SKU."""
+        self.ensure_one()
+        if self.state != 'connected':
+            raise UserError('Primero debes conectar la instancia.')
+        result = self.env['woo.sync.cron']._run_barcode_mapping(self)
+        msg = (f"Mapeo finalizado: {result['mapped']} productos mapeados, "
+               f"{result['unmatched']} sin coincidencia, "
+               f"{result['errors']} errores.")
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'message': msg,
+                'type': 'success' if result['errors'] == 0 else 'warning',
+                'sticky': True,
+            },
+        }
+
     def _get_product_qty(self, product):
         """Get stock quantity for a product.product based on config."""
         self.ensure_one()

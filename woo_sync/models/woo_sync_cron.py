@@ -901,6 +901,86 @@ class WooSyncCron(models.AbstractModel):
             ]).unlink()
 
     # -------------------------------------------------------------------------
+    # BARCODE / SKU MAPPING (LIGHTWEIGHT – NO PRODUCT CREATION)
+    # -------------------------------------------------------------------------
+
+    def _run_barcode_mapping(self, instance):
+        """Map unmapped Odoo products to existing WooCommerce products
+        by comparing barcode / default_code against WC SKU.
+        Does NOT create or update products – only creates mapping records."""
+        api = instance._get_woo_api()
+        start_time = time.time()
+
+        # 1. Fetch WC SKU index
+        woo_sku_index = self._fetch_woo_sku_index(api)
+        if not woo_sku_index:
+            self._create_log(
+                instance, 'mapping', 'warning',
+                message="No se encontraron productos con SKU en WooCommerce.")
+            return {'mapped': 0, 'unmatched': 0, 'errors': 0}
+
+        # 2. Find unmapped Odoo templates
+        existing_mappings = self.env['woo.sync.template.mapping'].search([
+            ('instance_id', '=', instance.id),
+        ])
+        mapped_tmpl_ids = set(existing_mappings.mapped('product_tmpl_id').ids)
+
+        domain = safe_eval(instance.product_domain or "[]")
+        domain += [('active', '=', True)]
+        all_templates = self.env['product.template'].search(domain)
+        unmapped = all_templates.filtered(lambda t: t.id not in mapped_tmpl_ids)
+
+        if not unmapped:
+            self._create_log(
+                instance, 'mapping', 'success',
+                message="Todos los productos ya están mapeados.")
+            return {'mapped': 0, 'unmatched': 0, 'errors': 0}
+
+        _logger.info(
+            "WooSync: Barcode mapping started – %d unmapped templates, "
+            "%d WC products with SKU", len(unmapped), len(woo_sku_index))
+
+        # 3. Build a minimal cache for mapping creation
+        cache = self._build_cache(instance)
+
+        mapped_count = 0
+        unmatched_count = 0
+        error_count = 0
+
+        for template in unmapped:
+            try:
+                existing = self._match_by_barcode(template, woo_sku_index)
+                if existing:
+                    is_variable = self._is_variable_product(template)
+                    self._map_existing_woo_product(
+                        instance, api, template, existing, is_variable, cache)
+                    self.env.cr.commit()
+                    mapped_count += 1
+                else:
+                    unmatched_count += 1
+            except Exception as e:
+                self.env.cr.rollback()
+                _logger.exception(
+                    "WooSync: Barcode mapping failed for '%s' [ID: %s]",
+                    template.name, template.id)
+                error_count += 1
+                self.env.cr.commit()
+
+        elapsed = round(time.time() - start_time, 1)
+        msg = (f"Mapeo por barcode/SKU en {elapsed}s: "
+               f"{mapped_count} mapeados, {unmatched_count} sin coincidencia, "
+               f"{error_count} errores")
+        _logger.info("WooSync: %s – %s", instance.name, msg)
+        self._create_log(instance, 'mapping', 'success', message=msg)
+        self.env.cr.commit()
+
+        return {
+            'mapped': mapped_count,
+            'unmatched': unmatched_count,
+            'errors': error_count,
+        }
+
+    # -------------------------------------------------------------------------
     # STOCK & PRICE SYNC (LIGHTWEIGHT CRON)
     # -------------------------------------------------------------------------
 
