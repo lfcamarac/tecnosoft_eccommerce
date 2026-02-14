@@ -69,6 +69,9 @@ class WooSyncInstance(models.Model):
     sync_images = fields.Boolean(
         "Sincronizar Imágenes", default=True,
         help="Si se desmarca, Odoo NUNCA enviará ni actualizará imágenes en WooCommerce.")
+    price_include_tax = fields.Boolean(
+        "Precio con impuestos", default=False,
+        help="Si se activa, el precio enviado a WooCommerce incluirá los impuestos del producto.")
 
     # Batch settings
     batch_size = fields.Integer(
@@ -225,11 +228,24 @@ class WooSyncInstance(models.Model):
         return total_qty
 
     def _get_product_price(self, product):
-        """Get price from the configured pricelist for a product.product."""
+        """Get price from the configured pricelist for a product.product.
+        If price_include_tax is enabled, adds product taxes to the price."""
         self.ensure_one()
         if self.pricelist_id:
-            return self.pricelist_id._get_product_price(product, quantity=1.0)
-        return product.list_price
+            price = self.pricelist_id._get_product_price(product, quantity=1.0)
+        else:
+            price = product.list_price
+        if self.price_include_tax:
+            taxes = product.taxes_id.filtered(
+                lambda t: t.company_id == self.company_id)
+            if taxes:
+                currency = (self.pricelist_id.currency_id
+                            if self.pricelist_id
+                            else self.company_id.currency_id)
+                price = taxes.compute_all(
+                    price, currency=currency,
+                    quantity=1.0, product=product)['total_included']
+        return price
 
     def action_view_mappings(self):
         self.ensure_one()

@@ -76,7 +76,7 @@
                         </group>
                         <group string="Configuración de Sincronización">
                             <field name="pricelist_id"/>
-                            <field name="pricelist_id"/>
+                            <field name="price_include_tax"/>
                             <field name="stock_source"/>
                             <field name="warehouse_ids" widget="many2many_tags"
                                    invisible="stock_source == 'global'"
