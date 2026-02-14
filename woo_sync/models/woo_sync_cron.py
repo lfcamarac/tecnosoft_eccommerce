@@ -297,43 +297,41 @@ class WooSyncCron(models.AbstractModel):
         
         if not woo_id:
             raise Exception("No se encontró el producto en WooCommerce (ni por mapeo ni por SKU).")
-            
-            # 3. Fetch product data (Optimized: only needed fields)
-            try:
-                res = api.get(f'products/{woo_id}', params={'fields': 'id,images'})
-                if res.status_code != 200:
-                    raise Exception(f"Error fetching product {woo_id}: {res.text}")
-                
-                data = res.json()
-                images = data.get('images', [])
-                
-                if not images:
-                    raise Exception("El producto en WooCommerce no tiene imágenes.")
-                    
-                # 4. Download first image
-                img_url = images[0]['src']
-                _logger.info("Downloading image from: %s", img_url)
-                
-                # Timeout safety for download
-                response = requests.get(img_url, timeout=15)
-                if response.status_code == 200:
-                    product_tmpl.write({
-                        'image_1920': base64.b64encode(response.content)
-                    })
+
+        # 3. Fetch product data (Optimized: only needed fields)
+        try:
+            res = api.get(f'products/{woo_id}', params={'fields': 'id,images'})
+            if res.status_code != 200:
+                raise Exception(f"Error fetching product {woo_id}: {res.text}")
+
+            data = res.json()
+            images = data.get('images', [])
+
+            if not images:
+                raise Exception("El producto en WooCommerce no tiene imágenes.")
+
+            # 4. Download first image
+            img_url = images[0]['src']
+            _logger.info("Downloading image from: %s", img_url)
+
+            response = requests.get(img_url, timeout=15)
+            if response.status_code == 200:
+                product_tmpl.write({
+                    'image_1920': base64.b64encode(response.content)
+                })
             else:
                 raise Exception(f"Failed to download image: {response.status_code}")
-                
+
         except Exception as e:
-            raise Exception(f"Error pulling image: {str(e)}")
             _logger.exception(
-                "WooSync: Manual sync failed for '%s' [ID: %s]",
+                "WooSync: Image pull failed for '%s' [ID: %s]",
                 product_tmpl.name, product_tmpl.id)
             self._create_log(
                 instance, 'product', 'error',
                 product_tmpl_id=product_tmpl.id,
-                message=f"Manual Error: {str(e)[:500]}")
+                message=f"Pull image error: {str(e)[:500]}")
             self.env.cr.commit()
-            raise e  # Re-raise to be caught by cron loop
+            raise
 
     def _build_single_product_cache(self, instance, product_tmpl):
         """Build a cache dict containing ONLY data relevant for one product."""
